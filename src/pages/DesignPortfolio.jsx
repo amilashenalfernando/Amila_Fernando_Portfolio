@@ -140,7 +140,7 @@ const DesignPortfolio = () => {
                     Let's discuss how we can bring your creative vision to life.
                 </p>
                 <button 
-                    onClick={() => navigate('/contact')} 
+                    onClick={() => navigate('/#contact')} 
                     className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-full transition-colors flex items-center justify-center gap-2 mx-auto"
                 >
                     Contact Me <FiArrowRight size={18} />
@@ -211,7 +211,7 @@ const DesignPortfolio = () => {
                                 <button 
                                     onClick={() => {
                                         setSelectedId(null);
-                                        setTimeout(() => navigate('/contact'), 300);
+                                        setTimeout(() => navigate('/#contact'), 300);
                                     }}
                                     className="w-full py-3 mt-auto bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium transition-colors"
                                 >

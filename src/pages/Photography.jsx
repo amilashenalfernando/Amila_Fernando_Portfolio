@@ -201,7 +201,7 @@ const Photography = () => {
                         From high-end commercial projects to intimate personal portraits, I bring a professional, cinematic lens to every assignment. Secure your booking today.
                     </p>
                     <button 
-                        onClick={() => navigate('/contact')} 
+                        onClick={() => navigate('/#contact')} 
                         className="px-10 py-5 bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold rounded-full transition-all hover:scale-105 hover:shadow-[0_0_40px_-10px_rgba(249,115,22,0.5)] flex items-center gap-3 text-lg"
                     >
                         Let's Work Together <FiArrowRight size={20} />

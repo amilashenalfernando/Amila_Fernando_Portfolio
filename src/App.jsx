@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Layout from './components/Layout';
 import { Element, scroller } from 'react-scroll';
@@ -95,16 +95,22 @@ import LoadingScreen from './components/LoadingScreen';
 // Main Content Component handling Loading & Routing Logic
 const AppContent = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
+    // If the user refreshes with a hash (e.g. /#experience),
+    // remove the hash so they start at the top of the page.
+    if (window.location.hash) {
+      navigate(window.location.pathname, { replace: true });
+    }
+
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 3500);
 
     return () => clearTimeout(timer);
-  }, [location.pathname]);
+  }, [navigate]);
 
   return (
     <>
