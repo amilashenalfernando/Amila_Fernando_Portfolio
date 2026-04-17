@@ -1,0 +1,406 @@
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiGithub, FiExternalLink, FiFolder, FiX, FiArrowLeft, FiPlay, FiCheckCircle, FiZoomIn } from 'react-icons/fi';
+
+const projects = [
+    {
+        id: 1,
+        title: "Real-Time Chat App",
+        category: "Web App",
+        image: "/Projects/Chat App/Chat app.png",
+        description: "A seamless, multi-room chat platform built with Python's asyncio and WebSockets for low-latency, bi-directional messaging.",
+        stack: ["Python", "asyncio", "WebSockets", "HTML/CSS", "JavaScript"],
+        github: "https://github.com/Amila20040220/Real-Time-Chat-Room-Application",
+        demo: "/Projects/Chat App/CIT-24-01-0474.mp4"
+    },
+    {
+        id: 2,
+        title: "EcoTrack",
+        category: "Web App",
+        image: "/Projects/EcoTrack/Screenshot 2026-04-17 at 19.06.47.png",
+        description: "A comprehensive web application for managing environmental tracking and eco-friendly analytics.",
+        stack: ["React", "Tailwind CSS", "JavaScript"],
+        github: "https://github.com/amilashenalfernando/dev_amila_EcoTrack",
+        demo: "https://eco-track-delta-gules.vercel.app/"
+    },
+    {
+        id: 3,
+        title: "ArcLights",
+        category: "Web App",
+        image: "/Projects/ArcLight/Screenshot 2026-04-17 at 19.07.12.png",
+        description: "A modern corporate portfolio website for ArcLight, effectively showcasing their comprehensive services and impressive past projects.",
+        stack: ["React", "Tailwind CSS", "JavaScript"],
+        github: "https://github.com/amilashenalfernando/dev_amila_arclight-portfolio",
+        demo: "https://www.arclightsl.com/"
+    },
+    {
+        id: 4,
+        title: "AI Image Generator",
+        category: "Academic",
+        image: "https://placehold.co/600x400/1e293b/f97316?text=AI+Generator",
+        description: "University final year project using GANs to generate artistic landscapes from sketches.",
+        stack: ["Python", "TensorFlow", "Flask"],
+        github: "#",
+        demo: "#",
+        hidden: true
+    },
+    {
+        id: 5,
+        title: "Restaurant Branding",
+        category: "Design",
+        image: "https://placehold.co/600x400/1e293b/f97316?text=Branding",
+        description: "Complete brand identity including logo, menu design, and social media assets.",
+        stack: ["Illustrator", "Photoshop"],
+        github: "#",
+        demo: "#",
+        hidden: true
+    },
+    {
+        id: 6,
+        title: "Smart Home Dashboard",
+        category: "Web App",
+        image: "https://placehold.co/600x400/1e293b/f97316?text=IoT+Dashboard",
+        description: "IoT dashboard to control smart devices with real-time data visualization.",
+        stack: ["Vue.js", "Socket.io", "Chart.js"],
+        github: "#",
+        demo: "#",
+        hidden: true
+    }
+];
+
+const categories = ["All", "Web App", "Mobile App", "Academic", "Design"];
+
+const isVideo = (url) => url && typeof url === 'string' && (url.endsWith('.mp4') || url.endsWith('.webm'));
+
+const Projects = () => {
+    const [filter, setFilter] = useState("All");
+    const [selectedVideo, setSelectedVideo] = useState(null);
+    const [selectedProject, setSelectedProject] = useState(null);
+
+    const filteredProjects = projects.filter(p =>
+        (filter === "All" || p.category === filter) && !p.hidden
+    );
+
+    const handleDemoClick = (e, project) => {
+        // If it's a video file, prevent default new tab and open modal
+        if (isVideo(project.demo)) {
+            e.preventDefault();
+            setSelectedVideo({
+                url: project.demo,
+                title: project.title
+            });
+        }
+    };
+
+    return (
+        <div className="w-full max-w-7xl mx-auto pt-10 px-4">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-center mb-12"
+            >
+                <span className="text-orange-400 font-semibold tracking-wider uppercase text-sm">Portfolio</span>
+                <h2 className="text-4xl md:text-5xl font-bold mt-2">Featured <span className="text-gradient">Projects</span></h2>
+            </motion.div>
+
+            {/* Filters */}
+            {/*<div className="flex flex-wrap justify-center gap-4 mb-12">
+                {categories.map((cat) => (
+                    <button
+                        key={cat}
+                        onClick={() => setFilter(cat)}
+                        className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${filter === cat
+                            ? 'bg-gradient-to-r from-orange-600 to-red-600 text-white shadow-lg shadow-orange-500/30'
+                            : 'bg-white/5 text-gray-300 hover:bg-white/10'
+                            }`}
+                    >
+                        {cat}
+                    </button>
+                ))}
+            </div>*/}
+
+            {/* Grid */}
+            <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <AnimatePresence mode="popLayout">
+                    {filteredProjects.map((project) => (
+                        <motion.div
+                            layoutId={`project-card-${project.id}`}
+                            key={project.id}
+                            onClick={() => setSelectedProject(project)}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.9 }}
+                            transition={{ duration: 0.3 }}
+                            className="glass-card flex flex-col h-full hover-lift group overflow-hidden w-full max-w-sm mx-auto cursor-pointer relative"
+                        >
+                            <div className="absolute top-0 right-0 p-16 bg-gradient-to-br from-orange-500/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+
+                            <div className="relative h-48 overflow-hidden">
+                                <img
+                                    src={project.image}
+                                    alt={project.title}
+                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                />
+                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <FiZoomIn className="text-white text-3xl" />
+                                </div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent opacity-60 pointer-events-none" />
+                            </div>
+
+                            <div className="p-6 flex flex-col flex-grow relative z-10">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div className="p-2 bg-white/5 rounded-lg group-hover:bg-orange-500/20 transition-colors">
+                                        <FiFolder className="text-xl text-orange-400" />
+                                    </div>
+                                    <div className="flex gap-3 text-gray-400">
+                                        <a
+                                            href={project.github}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="hover:text-white transition-colors"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            <FiGithub size={20} />
+                                        </a>
+                                        <a
+                                            href={project.demo}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleDemoClick(e, project);
+                                            }}
+                                            className="hover:text-white transition-colors relative group/icon"
+                                        >
+                                            {isVideo(project.demo) ? <FiPlay size={20} /> : <FiExternalLink size={20} />}
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <h3 className="text-xl font-bold mb-2 group-hover:text-orange-300 transition-colors">{project.title}</h3>
+                                <p className="text-gray-400 text-sm mb-6 flex-grow">{project.description}</p>
+
+                                <div className="flex flex-wrap gap-2 mt-auto">
+                                    {project.stack.map(tech => (
+                                        <span key={tech} className="text-xs font-mono text-orange-300 bg-orange-500/10 px-2 py-1 rounded">
+                                            {tech}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </motion.div>
+                    ))}
+                </AnimatePresence>
+            </motion.div>
+
+            {/* 
+            // ==========================================
+            // LEGACY GRID LAYOUT (Uncomment to Restore)
+            // ==========================================
+            // To switch back to grid:
+            // 1. Comment out the Flexbox layout above
+            // 2. Uncomment this Grid layout below
+            
+            <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <AnimatePresence mode="popLayout">
+                    {filteredProjects.map((project) => (
+                        <motion.div
+                            layout
+                            key={project.id}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.9 }}
+                            transition={{ duration: 0.3 }}
+                            className="glass-card flex flex-col h-full hover-lift group overflow-hidden"
+                        >
+                            <div className="relative h-48 overflow-hidden">
+                                <img
+                                    src={project.image}
+                                    alt={project.title}
+                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent opacity-60" />
+                            </div>
+
+                            <div className="p-6 flex flex-col flex-grow">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div className="p-2 bg-white/5 rounded-lg group-hover:bg-orange-500/20 transition-colors">
+                                        <FiFolder className="text-xl text-orange-400" />
+                                    </div>
+                                    <div className="flex gap-3 text-gray-400">
+                                        <a href={project.github} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors"><FiGithub size={20} /></a>
+                                        <a href={project.demo} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors relative group/icon" onClick={(e) => { e.stopPropagation(); handleDemoClick(e, project); }}>
+                                            {isVideo(project.demo) ? <FiPlay size={20} /> : <FiExternalLink size={20} />}
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <h3 className="text-xl font-bold mb-2 group-hover:text-orange-300 transition-colors">{project.title}</h3>
+                                <p className="text-gray-400 text-sm mb-6 flex-grow">{project.description}</p>
+
+                                <div className="flex flex-wrap gap-2 mt-auto">
+                                    {project.stack.map(tech => (
+                                        <span key={tech} className="text-xs font-mono text-orange-300 bg-orange-500/10 px-2 py-1 rounded">
+                                            {tech}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </motion.div>
+                    ))}
+                </AnimatePresence>
+            </motion.div>
+            */}
+
+            {/* Video Modal */}
+            <AnimatePresence>
+                {selectedVideo && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[70] flex items-center justify-center bg-black/95 backdrop-blur-md p-4"
+                        onClick={() => setSelectedVideo(null)}
+                    >
+                        {/* Close / Back Button (Top Left) */}
+                        <button
+                            onClick={() => setSelectedVideo(null)}
+                            className="absolute top-6 left-6 flex items-center gap-2 text-white/70 hover:text-orange-400 transition-colors z-50 group"
+                        >
+                            <div className="p-2 bg-white/10 rounded-full group-hover:bg-white/20 transition-colors">
+                                <FiArrowLeft className="text-xl" />
+                            </div>
+                            <span className="font-semibold text-lg">Back to Portfolio</span>
+                        </button>
+
+                        {/* Close Icon (Top Right) */}
+                        <button
+                            onClick={() => setSelectedVideo(null)}
+                            className="absolute top-6 right-6 text-white/50 hover:text-white text-4xl transition-colors z-50"
+                        >
+                            <FiX />
+                        </button>
+
+                        <div
+                            className="w-full max-w-5xl flex flex-col items-center"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <motion.div
+                                initial={{ scale: 0.9, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                exit={{ scale: 0.9, opacity: 0 }}
+                                className="w-full relative rounded-2xl overflow-hidden shadow-2xl shadow-orange-500/10 border border-white/10 bg-black"
+                            >
+                                <video
+                                    src={selectedVideo.url}
+                                    controls
+                                    autoPlay
+                                    className="w-full max-h-[80vh]"
+                                >
+                                    Your browser does not support the video tag.
+                                </video>
+                            </motion.div>
+                            <h3 className="text-2xl font-bold text-white mt-6">{selectedVideo.title} <span className="text-orange-400">Demo</span></h3>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Project Details Modal */}
+            <AnimatePresence>
+                {selectedProject && (
+                    <div className="fixed inset-0 z-[60] flex items-center justify-center px-4 pointer-events-none">
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setSelectedProject(null)}
+                            className="absolute inset-0 bg-black/80 backdrop-blur-sm pointer-events-auto"
+                        />
+
+                        <motion.div
+                            layoutId={`project-card-${selectedProject.id}`}
+                            className="w-full max-w-2xl relative z-10 pointer-events-auto bg-[#0a0a0a] border border-white/10 rounded-2xl overflow-hidden shadow-2xl font-sans"
+                        >
+                            {/* Close Button */}
+                            <button
+                                onClick={() => setSelectedProject(null)}
+                                className="absolute top-4 right-4 z-20 p-2 bg-black/50 hover:bg-black text-white rounded-full backdrop-blur-md transition-all border border-white/10"
+                            >
+                                <FiX size={20} />
+                            </button>
+
+                            {/* Image Section */}
+                            <div className="relative h-64 md:h-72 w-full overflow-hidden bg-[#050505]">
+                                <img
+                                    src={selectedProject.image}
+                                    alt={selectedProject.title}
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent" />
+                            </div>
+
+                            {/* Content Section */}
+                            <div className="p-6 md:p-8 relative z-20 -mt-20">
+                                <div className="mb-4">
+                                    <span className="text-orange-400 text-sm font-semibold uppercase tracking-wider">{selectedProject.category}</span>
+                                    <h2 className="text-3xl md:text-4xl font-bold text-white mt-1">{selectedProject.title}</h2>
+                                </div>
+
+                                <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-8">
+                                    {selectedProject.description}
+                                </p>
+
+                                <div className="mb-8">
+                                    <h4 className="text-sm text-gray-500 font-semibold uppercase tracking-wider mb-3">Technologies</h4>
+                                    <div className="flex flex-wrap gap-2">
+                                        {selectedProject.stack.map((tech, idx) => (
+                                            <span key={idx} className="text-sm font-medium text-gray-200 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full">
+                                                {tech}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                                    {selectedProject.demo && selectedProject.demo !== "#" && (
+                                        <motion.a
+                                            href={selectedProject.demo}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            onClick={(e) => handleDemoClick(e, selectedProject)}
+                                            whileHover={{ scale: 1.02 }}
+                                            whileTap={{ scale: 0.98 }}
+                                            className="flex-1 py-3 px-6 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-medium rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-orange-500/25 transition-all text-center"
+                                        >
+                                            {isVideo(selectedProject.demo) ? (
+                                                <><FiPlay /> Watch Demo</>
+                                            ) : (
+                                                <><FiExternalLink /> Visit Website</>
+                                            )}
+                                        </motion.a>
+                                    )}
+
+                                    {selectedProject.github && selectedProject.github !== "#" && (
+                                        <motion.a
+                                            href={selectedProject.github}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            whileHover={{ scale: 1.02 }}
+                                            whileTap={{ scale: 0.98 }}
+                                            className="flex-1 py-3 px-6 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-medium rounded-xl flex items-center justify-center gap-2 transition-all text-center"
+                                        >
+                                            <FiGithub /> Source Code
+                                        </motion.a>
+                                    )}
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+};
+
+export default Projects;
