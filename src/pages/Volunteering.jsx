@@ -45,8 +45,8 @@ const Volunteering = () => {
                 animate={{ opacity: 1, y: 0 }}
                 className="text-center mb-12"
             >
-                <span className="text-orange-400 font-medium tracking-wide uppercase text-xs">Community Impact</span>
-                <h2 className="text-3xl md:text-4xl font-bold mt-2 text-white">
+                <span className="text-orange-600 dark:text-orange-400 font-medium tracking-wide uppercase text-xs">Community Impact</span>
+                <h2 className="text-3xl md:text-4xl font-bold mt-2 text-text-primary">
                     Volunteering & Activities
                 </h2>
             </motion.div>
@@ -61,7 +61,7 @@ const Volunteering = () => {
                         transition={{ duration: 0.4, delay: index * 0.1 }}
                         className="group relative h-full"
                     >
-                        <div className="relative glass-card bg-[#0a0a0a] border border-white/5 rounded-xl overflow-hidden hover:border-orange-500/30 transition-colors duration-300 h-full flex flex-col">
+                        <div className="relative glass-card bg-[var(--bg-secondary)] border border-[var(--glass-border)] rounded-xl overflow-hidden hover:border-orange-500/30 transition-colors duration-300 h-full flex flex-col">
                             {/* Image Section - Compact Height */}
                             <div className="relative h-48 overflow-hidden">
 
@@ -75,21 +75,21 @@ const Volunteering = () => {
                             {/* Content Section */}
                             <div className="p-6 flex flex-col flex-grow">
                                 <div className="flex justify-between items-start mb-3">
-                                    <span className="text-xs font-mono text-orange-400 bg-orange-500/5 px-2 py-1 rounded border border-orange-500/10">
+                                    <span className="text-xs font-mono text-orange-600 dark:text-orange-400 bg-orange-500/10 dark:bg-orange-500/5 px-2 py-1 rounded border border-orange-500/10">
                                         {item.date}
                                     </span>
                                 </div>
 
-                                <h3 className="text-xl font-bold text-white mb-1 leading-snug group-hover:text-orange-100 transition-colors">
+                                <h3 className="text-xl font-bold text-text-primary mb-1 leading-snug group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
                                     {item.title}
                                 </h3>
 
-                                <div className="text-sm text-gray-500 font-medium mb-3">
-                                    <span className="text-orange-400 block mb-1 font-semibold">{item.role}</span>
+                                <div className="text-sm text-text-secondary font-medium mb-3">
+                                    <span className="text-orange-600 dark:text-orange-400 block mb-1 font-semibold">{item.role}</span>
                                     {item.organization}
                                 </div>
 
-                                <p className="text-gray-400 text-sm leading-relaxed mb-4 flex-grow line-clamp-3">
+                                <p className="text-text-secondary text-sm leading-relaxed mb-4 flex-grow line-clamp-3">
                                     {item.description}
                                 </p>
                             </div>
@@ -101,7 +101,7 @@ const Volunteering = () => {
             <div className="mt-12 flex justify-center">
                 <button
                     onClick={() => setIsModalOpen(true)}
-                    className="px-8 py-3 rounded-full bg-white/10 text-white font-semibold backdrop-blur-sm border border-white/10 hover:bg-orange-500 hover:border-orange-500 transition-all hover:-translate-y-1 flex items-center justify-center gap-2 group"
+                    className="px-8 py-3 rounded-full bg-[var(--glass-bg)] text-text-primary font-semibold backdrop-blur-sm border border-[var(--glass-border)] hover:bg-orange-500 hover:text-white hover:border-orange-500 transition-all hover:-translate-y-1 flex items-center justify-center gap-2 group"
                 >
                     View All Activities
                     <FiExternalLink className="group-hover:translate-x-1 transition-transform" />
@@ -116,32 +116,32 @@ const Volunteering = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0, pointerEvents: "none" }}
-                        className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-[#050505] overflow-hidden"
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-[var(--bg-primary)] overflow-hidden"
                         onClick={() => setIsModalOpen(false)}
                     >
                         {/* Animated Background Blobs - Full Screen */}
-                        <div className="hidden md:block absolute top-0 left-[-10%] w-[500px] h-[500px] bg-orange-600/20 rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-blob pointer-events-none" />
-                        <div className="hidden md:block absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-red-600/20 rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-blob animation-delay-2000 pointer-events-none" />
-                        <div className="hidden md:block absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-yellow-600/20 rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-blob animation-delay-4000 pointer-events-none" />
+                        <div className="hidden md:block absolute top-0 left-[-10%] w-[500px] h-[500px] bg-orange-600/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[100px] opacity-20 dark:opacity-30 animate-blob pointer-events-none" />
+                        <div className="hidden md:block absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-red-600/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[100px] opacity-20 dark:opacity-30 animate-blob animation-delay-2000 pointer-events-none" />
+                        <div className="hidden md:block absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-yellow-600/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[100px] opacity-20 dark:opacity-30 animate-blob animation-delay-4000 pointer-events-none" />
 
                         <motion.div
                             initial={{ scale: 0.9, y: 50 }}
                             animate={{ scale: 1, y: 0 }}
                             exit={{ scale: 0.9, y: 50 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="bg-[#050505]/80 backdrop-blur-md md:backdrop-blur-xl border border-white/10 rounded-2xl w-full max-w-7xl h-auto max-h-[90vh] overflow-hidden flex flex-col shadow-2xl relative z-10"
+                            className="bg-[var(--bg-primary)]/80 backdrop-blur-md md:backdrop-blur-xl border border-[var(--glass-border)] rounded-2xl w-full max-w-7xl h-auto max-h-[90vh] overflow-hidden flex flex-col shadow-2xl relative z-10"
                         >
                             {/* Modal Header */}
-                            <div className="p-4 md:p-6 border-b border-white/10 flex justify-between items-center bg-transparent sticky top-0 z-20 shrink-0">
+                            <div className="p-4 md:p-6 border-b border-[var(--glass-border)] flex justify-between items-center bg-transparent sticky top-0 z-20 shrink-0">
                                 <div>
-                                    <h3 className="text-xl md:text-2xl font-bold text-white">All Volunteering Activities</h3>
-                                    <p className="text-gray-400 text-xs md:text-sm">A complete record of my community involvement</p>
+                                    <h3 className="text-xl md:text-2xl font-bold text-text-primary">All Volunteering Activities</h3>
+                                    <p className="text-text-secondary text-xs md:text-sm">A complete record of my community involvement</p>
                                 </div>
                                 <button
                                     onClick={() => setIsModalOpen(false)}
-                                    className="p-2 md:p-3 bg-white/5 hover:bg-white/20 rounded-full transition-colors"
+                                    className="p-2 md:p-3 bg-[var(--glass-bg)] hover:bg-orange-500 rounded-full transition-colors text-text-primary hover:text-white"
                                 >
-                                    <FiX className="text-lg md:text-xl text-white" />
+                                    <FiX className="text-lg md:text-xl" />
                                 </button>
                             </div>
 
@@ -151,7 +151,7 @@ const Volunteering = () => {
                                     {activities.map((item) => (
                                         <div
                                             key={item.id}
-                                            className="group glass-card p-4 md:p-6 relative overflow-hidden transition-colors block bg-white/5"
+                                            className="group glass-card p-4 md:p-6 relative overflow-hidden transition-colors block bg-[var(--glass-bg)]"
                                         >
                                             <div className="mb-4 md:mb-6 h-32 md:h-48 rounded-lg overflow-hidden relative">
                                                 <img src={item.image} alt={item.title} className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110" />
@@ -159,16 +159,16 @@ const Volunteering = () => {
 
                                             <div>
                                                 <div className="flex justify-between items-start mb-2">
-                                                    <span className="text-xs font-mono text-orange-400 bg-orange-500/5 px-2 py-1 rounded border border-orange-500/10">
+                                                    <span className="text-xs font-mono text-orange-600 dark:text-orange-400 bg-orange-500/10 dark:bg-orange-500/5 px-2 py-1 rounded border border-orange-500/10">
                                                         {item.date}
                                                     </span>
                                                 </div>
-                                                <h3 className="text-base md:text-lg font-bold text-white mb-1 group-hover:text-orange-400 transition-colors">{item.title}</h3>
-                                                <div className="text-sm text-gray-500 font-medium mb-3">
-                                                    <span className="text-orange-400 block mb-1 font-semibold">{item.role}</span>
+                                                <h3 className="text-base md:text-lg font-bold text-text-primary mb-1 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">{item.title}</h3>
+                                                <div className="text-sm text-text-secondary font-medium mb-3">
+                                                    <span className="text-orange-600 dark:text-orange-400 block mb-1 font-semibold">{item.role}</span>
                                                     {item.organization}
                                                 </div>
-                                                <p className="text-gray-400 text-xs md:text-sm leading-relaxed">{item.description}</p>
+                                                <p className="text-text-secondary text-xs md:text-sm leading-relaxed">{item.description}</p>
                                             </div>
                                         </div>
                                     ))}

@@ -1,4 +1,4 @@
-export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -9,6 +9,14 @@ export default {
         sans: ['Outfit', 'Inter', 'sans-serif'],
       },
       colors: {
+        background: {
+          primary: 'var(--bg-primary)',
+          secondary: 'var(--bg-secondary)',
+        },
+        text: {
+          primary: 'var(--text-primary)',
+          secondary: 'var(--text-secondary)',
+        },
         glass: {
           100: 'rgba(255, 255, 255, 0.1)',
           200: 'rgba(255, 255, 255, 0.2)',

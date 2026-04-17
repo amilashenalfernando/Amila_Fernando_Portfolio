@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Link as ScrollLink, scroller } from 'react-scroll';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiMenu, FiX } from 'react-icons/fi';
+import { FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
+import { useTheme } from '../context/ThemeContext';
 
 const Navbar = () => {
+    const { isDarkMode, toggleTheme } = useTheme();
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const location = useLocation();
@@ -63,8 +65,8 @@ const Navbar = () => {
                     width: scrolled ? '85%' : '100%',
                     top: scrolled ? 20 : 0,
                     borderRadius: scrolled ? '50px' : '0px',
-                    borderColor: scrolled ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
-                    backgroundColor: scrolled ? 'rgba(5, 5, 5, 0.8)' : 'transparent',
+                    borderColor: scrolled ? 'var(--glass-border)' : 'transparent',
+                    backgroundColor: scrolled ? 'var(--nav-bg)' : 'transparent',
                     backdropFilter: scrolled ? 'blur(20px)' : 'blur(0px)',
                 }}
                 transition={{
@@ -95,7 +97,7 @@ const Navbar = () => {
                             key={item.name}
                             onClick={() => handleNavClick(item.target, item.type === 'scroll')}
                             className={`relative cursor-pointer text-sm font-medium transition-colors hover:text-orange-400 
-                                ${location.pathname === item.target ? 'text-orange-400' : 'text-gray-300'}`}
+                                ${location.pathname === item.target ? 'text-orange-400' : 'text-[var(--text-secondary)]'}`}
                         >
                             {item.name}
                             {location.pathname === item.target && (
@@ -106,15 +108,32 @@ const Navbar = () => {
                             )}
                         </span>
                     ))}
+
+                    {/* Theme Toggle */}
+                    <button
+                        onClick={toggleTheme}
+                        className="p-2 rounded-full bg-[var(--glass-bg)] hover:bg-orange-500/10 transition-colors border border-[var(--glass-border)] text-orange-400"
+                        title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                    >
+                        {isDarkMode ? <FiSun size={18} /> : <FiMoon size={18} />}
+                    </button>
                 </div>
 
-                {/* Mobile Toggle */}
-                <button
-                    className="md:hidden text-white text-2xl"
-                    onClick={() => setIsOpen(!isOpen)}
-                >
-                    {isOpen ? <FiX /> : <FiMenu />}
-                </button>
+                {/* Mobile Menu & Theme Toggle */}
+                <div className="flex items-center gap-4 md:hidden">
+                    <button
+                        onClick={toggleTheme}
+                        className="p-2 rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)] text-orange-400"
+                    >
+                        {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
+                    </button>
+                    <button
+                        className="text-orange-400 text-2xl"
+                        onClick={() => setIsOpen(!isOpen)}
+                    >
+                        {isOpen ? <FiX /> : <FiMenu />}
+                    </button>
+                </div>
             </motion.nav>
 
             {/* Mobile Menu Overlay */}
@@ -124,13 +143,13 @@ const Navbar = () => {
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
-                        className="fixed inset-0 z-40 bg-[#050505]/95 backdrop-blur-xl flex flex-col justify-center items-center space-y-8"
+                        className="fixed inset-0 z-40 bg-[var(--bg-primary)]/95 backdrop-blur-xl flex flex-col justify-center items-center space-y-8"
                     >
                         {navItems.map((item) => (
                             <span
                                 key={item.name}
                                 onClick={() => handleNavClick(item.target, item.type === 'scroll')}
-                                className="cursor-pointer text-2xl font-bold text-gray-300 hover:text-orange-400 transition-colors"
+                                className="cursor-pointer text-2xl font-bold text-[var(--text-secondary)] hover:text-orange-400 transition-colors"
                             >
                                 {item.name}
                             </span>

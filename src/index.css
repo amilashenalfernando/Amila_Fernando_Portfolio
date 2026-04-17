@@ -1,18 +1,54 @@
 @import "tailwindcss";
 
 :root {
+  /* DARK THEME (Default) */
+  --bg-primary: #050505;
+  --bg-secondary: #0a0a0a;
+  --text-primary: #ffffff;
+  --text-secondary: #9ca3af;
   --glass-border: rgba(255, 255, 255, 0.1);
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --nav-bg: rgba(5, 5, 5, 0.7);
+  --scrollbar-track: #050505;
+  --scrollbar-thumb: rgba(255, 255, 255, 0.2);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.4);
+}
+
+.light {
+  /* LIGHT THEME */
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --glass-border: rgba(0, 0, 0, 0.05);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-shadow: 0 20px 40px -8px rgba(249, 115, 22, 0.12);
+  --nav-bg: rgba(248, 250, 252, 0.7);
+  --scrollbar-track: #f8fafc;
+  --scrollbar-thumb: rgba(15, 23, 42, 0.1);
+  --scrollbar-thumb-hover: rgba(15, 23, 42, 0.2);
 }
 
 body {
-  background-color: #050505;
-  color: white;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: 'Outfit', 'Inter', sans-serif;
   overflow-x: hidden;
   margin: 0;
   padding: 0;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Ensure smooth transitions for structural theme-aware elements */
+body, .glass-card, .glass-nav, .text-gradient, button {
+  transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, backdrop-filter 0.5s ease;
+}
+
+/* Atomic synchronization for role links: Color switches instantly to match background start */
+.role-text-sync {
+  transition: none !important;
+  color: var(--text-primary) !important;
 }
 
 /* Custom Scrollbar */
@@ -21,16 +57,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #050505;
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.4);
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* Glassmorphism Utilities */
@@ -41,20 +77,33 @@ body {
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
   border-radius: 16px;
+  transition: background 0.5s ease, border 0.5s ease, box-shadow 0.5s ease;
 }
 
 .glass-nav {
-  background: rgba(5, 5, 5, 0.7);
+  background: var(--nav-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--glass-border);
+  transition: background 0.5s ease, border 0.5s ease;
 }
 
 .text-gradient {
-  background: linear-gradient(to right, #facc15, #f97316, #ef4444);
+  display: inline-block;
+  background-image: linear-gradient(to right, #facc15, #f97316, #ef4444);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-text-fill-color: transparent;
+  /* Hardware acceleration to prevent "glitching" during theme switch repaints */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+.light .text-gradient {
+  background-image: linear-gradient(to right, #ca8a04, #ea580c, #dc2626);
 }
 
 .hover-lift {

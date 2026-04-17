@@ -95,16 +95,16 @@ const Photography = () => {
                 className="mb-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-end"
             >
                 <div>
-                    <span className="text-orange-500 font-bold tracking-[0.2em] uppercase text-xs mb-4 block">Photography Studio</span>
-                    <h1 className="text-5xl md:text-7xl font-bold leading-tight text-white mb-6">
+                    <span className="text-orange-700 dark:text-orange-500 font-bold tracking-[0.2em] uppercase text-xs mb-4 block">Photography Studio</span>
+                    <h1 className="text-5xl md:text-7xl font-bold leading-tight text-text-primary mb-6">
                         Capturing <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 dark:from-orange-400 to-red-600 dark:to-red-500">
                             Unforgettable Moments
                         </span>
                     </h1>
                 </div>
                 <div className="pb-4">
-                    <p className="text-gray-400 text-lg md:text-xl leading-relaxed max-w-md">
+                    <p className="text-text-secondary text-lg md:text-xl leading-relaxed max-w-md">
                         Every frame is a powerful story waiting to be told. I explore light, emotion, and cinematic composition to deliver editorial imagery that resonates on a deeper level.
                     </p>
                 </div>
@@ -118,7 +118,7 @@ const Photography = () => {
                         onClick={() => setFilter(cat)}
                         className={`px-8 py-3 rounded-full text-sm font-semibold tracking-wide uppercase transition-all whitespace-nowrap ${filter === cat
                             ? 'bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-[0_0_20px_-5px_rgba(249,115,22,0.4)]'
-                            : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-white/5'
+                            : 'bg-[var(--glass-bg)] text-text-secondary hover:bg-orange-500/10 hover:text-text-primary border border-[var(--glass-border)]'
                             }`}
                     >
                         {cat}
@@ -140,18 +140,18 @@ const Photography = () => {
                             onClick={() => openCollection(album)}
                         >
                             {/* Premium Cover Image */}
-                            <div className="w-full aspect-[4/5] relative overflow-hidden rounded-[1.5rem] bg-[#050505] shadow-lg mb-6 border border-white/5">
+                            <div className="w-full aspect-[4/5] relative overflow-hidden rounded-[1.5rem] bg-[var(--bg-primary)] shadow-lg mb-6 border border-[var(--glass-border)]">
                                 <img 
                                     src={album.cover} 
                                     alt={album.title}
-                                    className="w-full h-full object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105 filter brightness-95 group-hover:brightness-105" 
+                                    className="w-full h-full object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:scale-105" 
                                 />
-                                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700" />
+                                <div className="absolute inset-0 bg-text-primary/10 group-hover:bg-transparent transition-colors duration-700" />
                                 
                                 {/* Hover overlay badge */}
                                 <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                                     <span className="text-white text-xs font-semibold flex items-center gap-2">
-                                        View Gallery <FiArrowRight className="text-orange-400" />
+                                        View Gallery <FiArrowRight className="text-orange-600 dark:text-orange-400" />
                                     </span>
                                 </div>
                             </div>
@@ -159,19 +159,18 @@ const Photography = () => {
                             {/* Album Text Data */}
                             <div className="flex flex-col px-2">
                                 <div className="flex justify-between items-center mb-2">
-                                    <span className="text-orange-500 text-xs font-bold tracking-[0.1em] uppercase">
+                                    <span className="text-orange-700 dark:text-orange-500 text-xs font-bold tracking-[0.1em] uppercase">
                                         {album.category}
                                     </span>
-                                    <span className="text-gray-500 text-xs font-mono bg-white/5 px-2 py-0.5 rounded border border-white/5">
+                                    <span className="text-text-secondary text-xs font-mono bg-[var(--glass-bg)] px-2 py-0.5 rounded border border-[var(--glass-border)]">
                                         {album.gallery.length} Images
                                     </span>
                                 </div>
 
-                                <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-orange-400 group-hover:to-red-500 transition-all duration-300">
+                                <h3 className="text-2xl font-bold text-text-primary mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-orange-600 dark:group-hover:from-orange-400 group-hover:to-red-600 dark:group-hover:to-red-500 transition-all duration-300">
                                     {album.title}
                                 </h3>
-
-                                <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">
+                                <p className="text-text-secondary text-sm leading-relaxed line-clamp-2">
                                     {album.description}
                                 </p>
                             </div>
@@ -183,21 +182,20 @@ const Photography = () => {
             {/* Premium Call To Action */}
             <motion.div 
                 initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
-                className="mt-32 max-w-5xl mx-auto rounded-[2rem] relative overflow-hidden bg-[#050505] border border-white/10"
+                className="mt-32 max-w-5xl mx-auto rounded-[2rem] relative overflow-hidden bg-[var(--bg-primary)] border border-[var(--glass-border)]"
             >
                 {/* Background Ambient Glows */}
                 <div className="absolute top-[-50%] left-[-10%] w-[300px] h-[300px] bg-orange-600/20 rounded-full mix-blend-screen filter blur-[100px] pointer-events-none" />
                 <div className="absolute bottom-[-50%] right-[-10%] w-[300px] h-[300px] bg-red-600/10 rounded-full mix-blend-screen filter blur-[100px] pointer-events-none" />
 
                 <div className="p-12 md:p-20 text-center relative z-10 flex flex-col items-center">
-                    <span className="text-orange-500 font-bold tracking-[0.2em] uppercase text-xs mb-4">Book A Session</span>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+                    <span className="text-orange-700 dark:text-orange-500 font-bold tracking-[0.2em] uppercase text-xs mb-4">Book A Session</span>
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-6">
                         Ready to capture <br/> your unique story?
                     </h2>
-                    <p className="text-gray-400 text-lg max-w-2xl mb-12">
+                    <p className="text-text-secondary text-lg max-w-2xl mb-12">
                         From high-end commercial projects to intimate personal portraits, I bring a professional, cinematic lens to every assignment. Secure your booking today.
                     </p>
                     <button 
@@ -216,15 +214,15 @@ const Photography = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[100] flex flex-col bg-[#050505] backdrop-blur-3xl overflow-hidden"
+                        className="fixed inset-0 z-[100] flex flex-col bg-[var(--bg-primary)] backdrop-blur-3xl overflow-hidden"
                     >
                         {/* Elegant Header */}
-                        <div className="flex justify-between items-center p-6 md:p-8 border-b border-white/5 bg-black/50 z-50 shrink-0">
+                        <div className="flex justify-between items-center p-6 md:p-8 border-b border-[var(--glass-border)] bg-[var(--nav-bg)] z-50 shrink-0">
                             <div>
-                                <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+                                <h2 className="text-2xl md:text-3xl font-bold text-text-primary tracking-tight">
                                     {selectedCollection.title}
                                 </h2>
-                                <span className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase mt-1 block">
+                                <span className="text-orange-600 dark:text-orange-400 text-xs font-bold tracking-[0.2em] uppercase mt-1 block">
                                     Complete Gallery ({selectedCollection.gallery.length} Images)
                                 </span>
                             </div>
@@ -236,7 +234,7 @@ const Photography = () => {
                                         setSelectedCollection(null); 
                                     }
                                 }}
-                                className="p-3 bg-white/5 hover:bg-white/20 border border-white/10 rounded-full transition-all text-white hover:scale-110"
+                                className="p-3 bg-[var(--glass-bg)] hover:bg-orange-600 border border-[var(--glass-border)] rounded-full transition-all text-text-primary hover:text-white hover:scale-110"
                             >
                                 <FiX className="text-xl md:text-2xl" />
                             </button>
@@ -259,7 +257,7 @@ const Photography = () => {
                                                     e.stopPropagation();
                                                     setCurrentImageIndex(idx);
                                                 }}
-                                                className="break-inside-avoid cursor-zoom-in group relative rounded-lg overflow-hidden border border-white/5 shadow-2xl"
+                                                className="break-inside-avoid cursor-pointer group relative rounded-lg overflow-hidden border border-[var(--glass-border)] shadow-2xl"
                                             >
                                                 <img
                                                     src={img}
@@ -272,9 +270,8 @@ const Photography = () => {
                                     </div>
                                 </div>
                             ) : (
-                                /* CINEMATIC IMMERSIVE SLIDESHOW */
                                 <div
-                                    className="absolute inset-0 flex items-center justify-center p-4 md:p-12 cursor-zoom-out bg-black/90"
+                                    className="absolute inset-0 flex items-center justify-center p-4 md:p-12 cursor-default bg-black/90"
                                     onClick={() => setCurrentImageIndex(null)}
                                 >
                                     {/* Navigation Arrows */}
@@ -305,9 +302,9 @@ const Photography = () => {
                                     />
 
                                     {/* Subtitle Indicator */}
-                                    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-6 py-2 bg-black/60 backdrop-blur-md rounded-full border border-white/10 pointer-events-none">
-                                        <span className="text-white text-sm font-semibold tracking-widest uppercase">
-                                            {currentImageIndex + 1} <span className="text-gray-500 mx-2">/</span> {selectedCollection.gallery.length}
+                                    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-6 py-2 bg-[var(--glass-bg)] backdrop-blur-md rounded-full border border-[var(--glass-border)] pointer-events-none">
+                                        <span className="text-text-primary text-sm font-semibold tracking-widest uppercase">
+                                            {currentImageIndex + 1} <span className="text-text-secondary mx-2">/</span> {selectedCollection.gallery.length}
                                         </span>
                                     </div>
                                 </div>

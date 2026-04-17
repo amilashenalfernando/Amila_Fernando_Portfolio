@@ -20,7 +20,7 @@ const LoadingScreen = () => {
 
     return (
         <motion.div
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#050505]"
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-[var(--bg-primary)]"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 2, ease: "easeInOut" }}
@@ -30,7 +30,7 @@ const LoadingScreen = () => {
                 {text.split("").map((char, i) => (
                     <span
                         key={i}
-                        className={i >= 6 ? "text-orange-500" : "text-white"}
+                        className={i >= 6 ? "text-orange-500" : "text-[var(--text-primary)]"}
                     >
                         {char}
                     </span>

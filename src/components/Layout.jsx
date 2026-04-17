@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const Layout = ({ children, onShowDesign, onShowPhotography }) => {
     return (
-        <div className="relative min-h-screen text-white font-sans">
+        <div className="relative min-h-screen text-[var(--text-primary)] font-sans transition-colors duration-500">
             <AnimatedBackground />
             <Navbar onShowDesign={onShowDesign} onShowPhotography={onShowPhotography} />
 

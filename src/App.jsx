@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from
 import { AnimatePresence } from 'framer-motion';
 import Layout from './components/Layout';
 import { Element, scroller } from 'react-scroll';
+import { ThemeProvider } from './context/ThemeContext';
 
 // Real page imports
 import Home from './pages/Home';
@@ -131,9 +132,11 @@ const AppContent = () => {
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </ThemeProvider>
   );
 }
 

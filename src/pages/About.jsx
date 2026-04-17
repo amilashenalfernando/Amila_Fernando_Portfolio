@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { scroller } from 'react-scroll';
 import { FiCode, FiPenTool, FiCamera, FiTarget, FiUser, FiImage, FiVideo } from 'react-icons/fi';
+import { useTheme } from '../context/ThemeContext';
 import {
     SiReact, SiJavascript, SiPython,
     SiTypescript, SiPostgresql,
@@ -189,6 +190,7 @@ const skills = [
 ];
 
 const About = () => {
+    const { isDarkMode } = useTheme();
     const navigate = useNavigate();
     const [activeTool, setActiveTool] = useState(null);
 
@@ -200,7 +202,7 @@ const About = () => {
                 transition={{ duration: 0.6 }}
                 className="text-center mb-16"
             >
-                <span className="text-orange-400 font-semibold tracking-wider uppercase text-sm">Discover</span>
+                <span className="text-orange-600 dark:text-orange-400 font-semibold tracking-wider uppercase text-sm">Discover</span>
                 <h2 className="text-4xl md:text-5xl font-bold mt-2">About <span className="text-gradient">Me</span></h2>
             </motion.div>
 
@@ -221,7 +223,9 @@ const About = () => {
                         />
 
                         {/* Gradient Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-80" />
+                        <div className={`absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-transparent to-transparent transition-opacity duration-500
+                            ${isDarkMode ? 'opacity-80' : 'opacity-0'}`} 
+                        />
 
                         {/* Floating Tech Buttons */}
                         <div className="absolute bottom-6 left-2 right-2 flex flex-wrap justify-center gap-2">
@@ -257,16 +261,16 @@ const About = () => {
                         className="glass-card p-8 flex flex-col justify-center flex-1"
                     >
                         <div className="flex items-center gap-4 mb-6">
-                            <div className="p-4 bg-white/5 rounded-full">
-                                <FiUser className="text-3xl text-white" />
+                            <div className="p-4 bg-[var(--glass-bg)] rounded-full text-text-primary">
+                                <FiUser className="text-3xl" />
                             </div>
                             <h3 className="text-2xl font-bold">Who I Am</h3>
                         </div>
-                        <p className="text-gray-300 leading-relaxed mb-4">
+                        <p className="text-text-secondary leading-relaxed mb-4">
                             My background in Software Engineering and Data Science provides me with a structured, data-driven approach to problem-solving.
                             I focus on building high-performance web solutions and exploring the latest in tech.
                         </p>
-                        <p className="text-gray-300 leading-relaxed">
+                        <p className="text-text-secondary leading-relaxed">
                             As a Graphic Designer and Photographer, I believe technology should be beautiful.
                             I bridge the gap between complex engineering and user-centric design, creating experiences that are intuitive, accessible, and visually stunning.
                         </p>
@@ -282,12 +286,12 @@ const About = () => {
                         <div className="absolute top-0 right-0 p-32 bg-orange-600/10 rounded-full blur-3xl" />
 
                         <div className="flex items-center gap-4 mb-6 relative z-10">
-                            <div className="p-4 bg-white/5 rounded-full">
-                                <FiTarget className="text-3xl text-white" />
+                            <div className="p-4 bg-[var(--glass-bg)] rounded-full text-text-primary">
+                                <FiTarget className="text-3xl" />
                             </div>
                             <h3 className="text-2xl font-bold">My Vision</h3>
                         </div>
-                        <p className="text-gray-300 leading-relaxed relative z-10">
+                        <p className="text-text-secondary leading-relaxed relative z-10">
                             I envision a future where technology and creativity are inseparable. I aim to grow into a role where I can architect full-stack solutions that are defined by clean code and exceptional visual storytelling.
                             My mission is to build digital products that feel as natural to use as they are inspiring to look at.
                         </p>
@@ -305,7 +309,7 @@ const About = () => {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.6 + index * 0.1 }}
-                        className="group glass-card p-6 hover-lift border-t-4 border-t-transparent hover:border-t-orange-500 transition-all cursor-pointer bg-white/5 hover:bg-white/10 relative overflow-hidden"
+                        className="group glass-card p-6 hover-lift border-t-4 border-t-transparent hover:border-t-orange-500 transition-all cursor-pointer bg-[var(--glass-bg)] hover:bg-orange-500/5 relative overflow-hidden"
                         onClick={() => {
                             if (skill.category === "Software Engineering") {
                                 scroller.scrollTo('projects', { smooth: true, duration: 500, offset: -100 });
@@ -322,13 +326,13 @@ const About = () => {
                             {skill.icon}
                         </div>
 
-                        <h4 className="text-xl font-bold mb-4 relative z-10 group-hover:text-orange-400 transition-colors">{skill.category}</h4>
+                        <h4 className="text-xl font-bold mb-4 relative z-10 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">{skill.category}</h4>
 
                         <div className="flex flex-wrap gap-2 relative z-10">
                             {skill.items.map((item, idx) => (
                                 <span
                                     key={idx}
-                                    className="px-3 py-1 bg-white/5 rounded-full text-sm text-gray-300 border border-white/5 transition-all duration-300 group-hover:bg-orange-500/20 group-hover:text-white group-hover:border-orange-500/30"
+                                    className="px-3 py-1 bg-[var(--glass-bg)] rounded-full text-sm text-text-secondary border border-[var(--glass-border)] transition-all duration-300 group-hover:bg-orange-500/20 group-hover:text-text-primary group-hover:border-orange-500/30"
                                 >
                                     {item}
                                 </span>
@@ -350,7 +354,7 @@ const About = () => {
                     <h3 className="text-3xl md:text-4xl font-bold mt-2">My <span className="text-gradient">Toolkit</span></h3>
                 </div>
 
-                <div className="relative w-screen ml-[calc(50%-50vw)] overflow-hidden py-6 bg-white/5 backdrop-blur-sm border-y border-white/5">
+                <div className="relative w-screen ml-[calc(50%-50vw)] overflow-hidden py-6 bg-[var(--glass-bg)] backdrop-blur-sm border-y border-[var(--glass-border)]">
                     <div className="flex w-max">
                         {/* First Loop */}
                         <motion.div
@@ -367,7 +371,7 @@ const About = () => {
                                     <div className={`flex items-center justify-center h-20 text-4xl md:text-5xl transition-transform duration-300 filter ${activeTool === tool.name ? 'grayscale-0 opacity-100 scale-110' : 'grayscale group-hover:grayscale-0 opacity-50 group-hover:opacity-100 group-hover:scale-110'}`}>
                                         {tool.icon}
                                     </div>
-                                    <span className={`text-sm transition-colors ${activeTool === tool.name ? 'text-white' : 'text-gray-500 group-hover:text-white'}`}>
+                                    <span className={`text-sm transition-colors ${activeTool === tool.name ? 'text-text-primary' : 'text-text-secondary/60 group-hover:text-text-primary'}`}>
                                         {tool.name}
                                     </span>
                                 </div>
@@ -389,7 +393,7 @@ const About = () => {
                                     <div className={`flex items-center justify-center h-20 text-4xl md:text-5xl transition-transform duration-300 filter ${activeTool === tool.name ? 'grayscale-0 opacity-100 scale-110' : 'grayscale group-hover:grayscale-0 opacity-50 group-hover:opacity-100 group-hover:scale-110'}`}>
                                         {tool.icon}
                                     </div>
-                                    <span className={`text-sm transition-colors ${activeTool === tool.name ? 'text-white' : 'text-gray-500 group-hover:text-white'}`}>
+                                    <span className={`text-sm transition-colors ${activeTool === tool.name ? 'text-text-primary' : 'text-text-secondary/60 group-hover:text-text-primary'}`}>
                                         {tool.name}
                                     </span>
                                 </div>

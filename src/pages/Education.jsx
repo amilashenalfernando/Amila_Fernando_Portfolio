@@ -91,14 +91,14 @@ const Education = () => {
                 animate={{ opacity: 1, y: 0 }}
                 className="text-center mb-16"
             >
-                <span className="text-orange-400 font-semibold tracking-wider uppercase text-sm">Journey</span>
+                <span className="text-orange-600 dark:text-orange-400 font-semibold tracking-wider uppercase text-sm">Journey</span>
                 <h2 className="text-4xl md:text-5xl font-bold mt-2">Education & <span className="text-gradient">Experience</span></h2>
             </motion.div>
 
             {/* Timeline Section */}
             <div className="relative max-w-4xl mx-auto mb-32">
                 {/* Vertical Line */}
-                <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-white/10 transform -translate-x-1/2" />
+                <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-[var(--glass-border)] transform -translate-x-1/2" />
 
                 {educationData.map((item, index) => (
                     <motion.div
@@ -111,7 +111,7 @@ const Education = () => {
                             }`}
                     >
                         {/* Timeline Dot */}
-                        <div className="absolute left-4 md:left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-4 border-[#050505] shadow-lg flex items-center justify-center z-10"
+                        <div className="absolute left-4 md:left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-4 border-[var(--bg-primary)] shadow-lg flex items-center justify-center z-10"
                             style={{
                                 backgroundColor: item.type === 'education' ? '#f97316' : item.type === 'experience' ? '#ef4444' : '#eab308'
                             }}
@@ -130,12 +130,12 @@ const Education = () => {
                         {/* Card Side */}
                         <div className={`md:w-1/2 pl-12 md:pl-0 ${index % 2 === 0 ? 'md:pr-12' : 'md:pl-12'}`}>
                             <div className="glass-card p-6 relative hover:border-orange-500/50 transition-colors">
-                                <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-white/5 text-gray-400 mb-3 border border-white/5">
+                                <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-[var(--glass-bg)] text-text-secondary mb-3 border border-[var(--glass-border)]">
                                     {item.year}
                                 </span>
-                                <h3 className="text-xl font-bold text-white mb-1">{item.title}</h3>
-                                <h4 className="text-orange-300 text-sm mb-3">{item.institution}</h4>
-                                <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+                                <h3 className="text-xl font-bold text-text-primary mb-1">{item.title}</h3>
+                                <h4 className="text-orange-500 dark:text-orange-300 text-sm mb-3">{item.institution}</h4>
+                                <p className="text-text-secondary text-sm leading-relaxed">{item.desc}</p>
                             </div>
                         </div>
                     </motion.div>
@@ -150,7 +150,7 @@ const Education = () => {
                     viewport={{ once: true }}
                     className="text-center mb-12"
                 >
-                    <span className="text-orange-400 font-semibold tracking-wider uppercase text-sm">Achievements</span>
+                    <span className="text-orange-600 dark:text-orange-400 font-semibold tracking-wider uppercase text-sm">Achievements</span>
                     <h2 className="text-3xl md:text-4xl font-bold mt-2">Certifications & <span className="text-gradient">Awards</span></h2>
                 </motion.div>
 
@@ -177,12 +177,12 @@ const Education = () => {
                             </div>
 
                             <div className="relative z-10">
-                                <h3 className="text-lg font-bold text-white mb-1 group-hover:text-orange-400 transition-colors">{cert.title}</h3>
-                                <p className="text-gray-400 text-sm mb-4">{cert.issuer} • {cert.date}</p>
+                                <h3 className="text-lg font-bold text-text-primary mb-1 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">{cert.title}</h3>
+                                <p className="text-text-secondary text-sm mb-4">{cert.issuer} • {cert.date}</p>
 
                                 <div className="flex flex-wrap gap-2">
                                     {cert.skills.map((skill, idx) => (
-                                        <span key={idx} className="text-xs px-2 py-1 bg-white/5 rounded border border-white/5 text-gray-300">
+                                        <span key={idx} className="text-xs px-2 py-1 bg-[var(--glass-bg)] rounded border border-[var(--glass-border)] text-text-secondary">
                                             {skill}
                                         </span>
                                     ))}
@@ -195,7 +195,7 @@ const Education = () => {
                 <div className="mt-12 flex justify-center">
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="px-8 py-3 rounded-full bg-white/10 text-white font-semibold backdrop-blur-sm border border-white/10 hover:bg-orange-500 hover:border-orange-500 transition-all hover:-translate-y-1 flex items-center justify-center gap-2 group"
+                        className="px-8 py-3 rounded-full bg-[var(--glass-bg)] text-text-primary font-semibold backdrop-blur-sm border border-[var(--glass-border)] hover:bg-orange-500 hover:text-white hover:border-orange-500 transition-all hover:-translate-y-1 flex items-center justify-center gap-2 group"
                     >
                         View All Certificates
                         <FiExternalLink className="group-hover:translate-x-1 transition-transform" />
@@ -210,33 +210,33 @@ const Education = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0, pointerEvents: "none" }}
-                            className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-[#050505] overflow-hidden"
+                            className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-[var(--bg-primary)] overflow-hidden"
                             onClick={() => setIsModalOpen(false)}
                         >
                             {/* Animated Background Blobs - Full Screen */}
-                            <div className="hidden md:block absolute top-0 left-[-10%] w-[500px] h-[500px] bg-orange-600/20 rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-blob pointer-events-none" />
-                            <div className="hidden md:block absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-red-600/20 rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-blob animation-delay-2000 pointer-events-none" />
-                            <div className="hidden md:block absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-yellow-600/20 rounded-full mix-blend-screen filter blur-[100px] opacity-30 animate-blob animation-delay-4000 pointer-events-none" />
+                            <div className="hidden md:block absolute top-0 left-[-10%] w-[500px] h-[500px] bg-orange-600/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[100px] opacity-20 dark:opacity-30 animate-blob pointer-events-none" />
+                            <div className="hidden md:block absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-red-600/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[100px] opacity-20 dark:opacity-30 animate-blob animation-delay-2000 pointer-events-none" />
+                            <div className="hidden md:block absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-yellow-600/20 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-[100px] opacity-20 dark:opacity-30 animate-blob animation-delay-4000 pointer-events-none" />
 
                             <motion.div
                                 initial={{ scale: 0.9, y: 50 }}
                                 animate={{ scale: 1, y: 0 }}
                                 exit={{ scale: 0.9, y: 50 }}
                                 onClick={(e) => e.stopPropagation()}
-                                className="bg-[#050505]/80 backdrop-blur-md md:backdrop-blur-xl border border-white/10 rounded-2xl w-full max-w-7xl h-auto max-h-[90vh] overflow-hidden flex flex-col shadow-2xl relative z-10"
+                                className="bg-[var(--bg-primary)]/80 backdrop-blur-md md:backdrop-blur-xl border border-[var(--glass-border)] rounded-2xl w-full max-w-7xl h-auto max-h-[90vh] overflow-hidden flex flex-col shadow-2xl relative z-10"
                             >
 
                                 {/* Modal Header */}
-                                <div className="p-4 md:p-6 border-b border-white/10 flex justify-between items-center bg-transparent sticky top-0 z-20 shrink-0">
+                                <div className="p-4 md:p-6 border-b border-[var(--glass-border)] flex justify-between items-center bg-transparent sticky top-0 z-20 shrink-0">
                                     <div>
-                                        <h3 className="text-xl md:text-2xl font-bold text-white">All Certifications</h3>
-                                        <p className="text-gray-400 text-xs md:text-sm">A collection of my professional achievements</p>
+                                        <h3 className="text-xl md:text-2xl font-bold text-text-primary">All Certifications</h3>
+                                        <p className="text-text-secondary text-xs md:text-sm">A collection of my professional achievements</p>
                                     </div>
                                     <button
                                         onClick={() => setIsModalOpen(false)}
-                                        className="p-2 md:p-3 bg-white/5 hover:bg-white/20 rounded-full transition-colors"
+                                        className="p-2 md:p-3 bg-[var(--glass-bg)] hover:bg-orange-500 rounded-full transition-colors text-text-primary hover:text-white"
                                     >
-                                        <FiX className="text-lg md:text-xl text-white" />
+                                        <FiX className="text-lg md:text-xl" />
                                     </button>
                                 </div>
 
@@ -249,7 +249,7 @@ const Education = () => {
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 key={cert.id}
-                                                className="group glass-card p-4 md:p-6 relative overflow-hidden hover:border-orange-500/50 transition-colors block bg-white/5"
+                                                className="group glass-card p-4 md:p-6 relative overflow-hidden hover:border-orange-500/50 transition-colors block bg-[var(--glass-bg)]"
                                             >
                                                 <div className="mb-4 md:mb-6 h-32 md:h-40 rounded-lg overflow-hidden relative">
                                                     <img src={cert.image} alt={cert.title} className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110" />
@@ -259,11 +259,14 @@ const Education = () => {
                                                 </div>
 
                                                 <div>
-                                                    <h3 className="text-base md:text-lg font-bold text-white mb-1 group-hover:text-orange-400 transition-colors">{cert.title}</h3>
-                                                    <p className="text-gray-400 text-xs md:text-sm mb-3 md:mb-4">{cert.issuer} • {cert.date}</p>
+                                                    <h3 className="text-base md:text-lg font-bold text-text-primary mb-1 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">{cert.title}</h3>
+                                                    <p className="text-text-secondary text-xs md:text-sm mb-3 md:mb-4">{cert.issuer} • {cert.date}</p>
                                                     <div className="flex flex-wrap gap-2">
                                                         {cert.skills.map((skill, idx) => (
-                                                            <span key={idx} className="text-xs px-2 py-1 bg-black/30 rounded border border-white/10 text-gray-300">
+                                                            <span 
+                                                                key={idx} 
+                                                                className="text-xs px-2 py-1 bg-orange-500/20 dark:bg-orange-500/5 rounded border border-orange-500/10 dark:border-[var(--glass-border)] text-orange-800 dark:text-text-secondary"
+                                                            >
                                                                 {skill}
                                                             </span>
                                                         ))}
