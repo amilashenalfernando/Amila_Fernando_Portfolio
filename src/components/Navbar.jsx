@@ -137,24 +137,92 @@ const Navbar = () => {
             </motion.nav>
 
             {/* Mobile Menu Overlay */}
+            {/* Mobile Menu Overlay */}
             <AnimatePresence>
                 {isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="fixed inset-0 z-40 bg-[var(--bg-primary)]/95 backdrop-blur-xl flex flex-col justify-center items-center space-y-8"
-                    >
-                        {navItems.map((item) => (
-                            <span
-                                key={item.name}
-                                onClick={() => handleNavClick(item.target, item.type === 'scroll')}
-                                className="cursor-pointer text-2xl font-bold text-[var(--text-secondary)] hover:text-orange-400 transition-colors"
-                            >
-                                {item.name}
-                            </span>
-                        ))}
-                    </motion.div>
+                    <>
+                        {/* Backdrop Overlay */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setIsOpen(false)}
+                            className="fixed inset-0 z-[55] bg-black/60 backdrop-blur-sm md:hidden"
+                        />
+
+                        {/* Side Drawer */}
+                        <motion.div
+                            initial={{ x: "100%" }}
+                            animate={{ x: 0 }}
+                            exit={{ x: "100%" }}
+                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                            className="fixed top-0 right-0 z-[60] w-[85vw] max-w-[350px] h-full bg-[var(--bg-primary)]/98 border-l border-[var(--glass-border)] shadow-2xl md:hidden overflow-hidden rounded-l-[32px] backdrop-blur-2xl"
+                        >
+                            {/* Background Atmospheric Glows */}
+                            <div className="absolute top-[-10%] right-[-10%] w-[100%] h-[50%] bg-orange-600/10 rounded-full blur-[80px] pointer-events-none" />
+                            <div className="absolute bottom-[-10%] left-[-10%] w-[80%] h-[40%] bg-red-600/10 rounded-full blur-[70px] pointer-events-none" />
+
+                            <div className="relative h-full flex flex-col px-8 py-12 overflow-y-auto">
+                                {/* Header / Close Button */}
+                                <div className="flex justify-between items-center mb-12">
+                                    <div onClick={() => handleNavClick('home', true)} className="cursor-pointer">
+                                        <img src="/Logo/logo.png" alt="Logo" className="h-5 w-auto" />
+                                    </div>
+                                    <button
+                                        className="p-2.5 rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)] text-orange-400"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        <FiX size={20} />
+                                    </button>
+                                </div>
+
+                                {/* Navigation Links */}
+                                <div className="flex flex-col space-y-5 flex-grow">
+                                    {navItems.map((item, index) => (
+                                        <motion.div
+                                            key={item.name}
+                                            initial={{ opacity: 0, x: 20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ duration: 0.4, delay: 0.1 + index * 0.05, ease: "easeOut" }}
+                                        >
+                                            <span
+                                                onClick={() => handleNavClick(item.target, item.type === 'scroll')}
+                                                className="group inline-flex items-center gap-3 cursor-pointer"
+                                            >
+                                                <span className="text-[10px] font-mono text-orange-400 opacity-40">
+                                                    0{index + 1}
+                                                </span>
+                                                <span className="text-3xl font-bold text-text-primary group-hover:text-orange-400 transition-colors tracking-tight">
+                                                    {item.name}
+                                                </span>
+                                            </span>
+                                        </motion.div>
+                                    ))}
+                                </div>
+
+                                {/* Social Links Footer */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: 0.6 }}
+                                    className="mt-auto pt-8 border-t border-[var(--glass-border)]"
+                                >
+                                    <p className="text-[10px] font-mono text-text-secondary uppercase tracking-[0.2em] mb-4 opacity-50">Social Presence</p>
+                                    <div className="flex gap-6 text-text-secondary">
+                                        <a href="https://github.com/amilashenalfernando" target="_blank" rel="noopener noreferrer" className="hover:text-orange-400 transition-colors text-xl">
+                                            <FiGithub />
+                                        </a>
+                                        <a href="https://www.linkedin.com/in/amilashenalfernando/" target="_blank" rel="noopener noreferrer" className="hover:text-orange-400 transition-colors text-xl">
+                                            <FiLinkedin />
+                                        </a>
+                                        <a href="mailto:amilafernando2004@gmail.com" className="hover:text-orange-400 transition-colors text-xl">
+                                            <FiMail />
+                                        </a>
+                                    </div>
+                                </motion.div>
+                            </div>
+                        </motion.div>
+                    </>
                 )}
             </AnimatePresence>
         </React.Fragment>
