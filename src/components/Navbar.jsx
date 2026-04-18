@@ -74,9 +74,9 @@ const Navbar = () => {
                     damping: 20,
                     mass: 1
                 }}
-                className={`fixed left-0 right-0 z-50 mx-auto px-6 py-4 flex justify-between items-center ${scrolled ? 'shadow-2xl shadow-orange-500/5' : ''}`}
+                className={`fixed left-0 right-0 z-[999] mx-auto px-6 py-4 flex justify-between items-center ${scrolled ? 'shadow-2xl shadow-orange-500/5' : ''}`}
             >
-                <div className={`flex justify-between items-center w-full transition-opacity duration-300 ${isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+                <div className={`flex justify-between items-center w-full transition-all duration-300 ${isOpen ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}>
                     {/* Logo */}
                     <div
                         onClick={() => handleNavClick('home', true)}
@@ -140,7 +140,7 @@ const Navbar = () => {
             {/* Premium Mobile Menu Overlay */}
             <AnimatePresence>
                 {isOpen && (
-                    <div className="fixed inset-0 z-[100] md:hidden">
+                    <div className="fixed inset-0 z-[1000] md:hidden">
                         {/* Backdrop Blur */}
                         <motion.div
                             initial={{ opacity: 0 }}
