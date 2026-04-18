@@ -127,10 +127,11 @@ const Navbar = () => {
                             {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
                         </button>
                         <button
-                            className="text-orange-400 text-2xl"
+                            className="text-orange-400 p-2 w-10 h-10 flex items-center justify-center hover:bg-orange-500/10 rounded-full transition-colors active:scale-95"
                             onClick={() => setIsOpen(true)}
+                            aria-label="Open Menu"
                         >
-                            <FiMenu />
+                            <FiMenu size={28} />
                         </button>
                     </div>
                 </div>
