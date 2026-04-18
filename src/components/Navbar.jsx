@@ -53,7 +53,6 @@ const Navbar = () => {
         { name: 'Photography', target: '/photos', type: 'route' },
         { name: 'Experience', target: 'experience', type: 'scroll' },
         { name: 'Volunteering', target: 'volunteering', type: 'scroll' },
-        { name: 'Contact', target: 'contact', type: 'scroll' },
     ];
 
     return (
@@ -67,7 +66,7 @@ const Navbar = () => {
                     borderRadius: scrolled ? '50px' : '0px',
                     borderColor: scrolled ? 'var(--glass-border)' : 'transparent',
                     backgroundColor: scrolled ? 'var(--nav-bg)' : 'transparent',
-                    backdropFilter: scrolled ? 'blur(20px)' : 'blur(0px)',
+                    backdropFilter: scrolled ? (isOpen ? 'blur(0px)' : 'blur(20px)') : 'blur(0px)',
                 }}
                 transition={{
                     type: "spring",
@@ -77,152 +76,151 @@ const Navbar = () => {
                 }}
                 className={`fixed left-0 right-0 z-50 mx-auto px-6 py-4 flex justify-between items-center ${scrolled ? 'shadow-2xl shadow-orange-500/5' : ''}`}
             >
-                {/* Logo */}
-                {/* Logo */}
-                <div
-                    onClick={() => handleNavClick('home', true)}
-                    className="cursor-pointer"
-                >
-                    <img
-                        src="/Logo/logo.png"
-                        alt="Logo"
-                        className="h-5 w-auto object-contain"
-                    />
-                </div>
+                <div className={`flex justify-between items-center w-full transition-opacity duration-300 ${isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+                    {/* Logo */}
+                    <div
+                        onClick={() => handleNavClick('home', true)}
+                        className="cursor-pointer"
+                    >
+                        <img
+                            src="/Logo/logo.png"
+                            alt="Logo"
+                            className="h-5 w-auto object-contain"
+                        />
+                    </div>
 
-                {/* Desktop Menu */}
-                <div className="hidden md:flex space-x-6 lg:space-x-8">
-                    {navItems.map((item) => (
-                        <span
-                            key={item.name}
-                            onClick={() => handleNavClick(item.target, item.type === 'scroll')}
-                            className={`relative cursor-pointer text-sm font-medium transition-colors hover:text-orange-400 
-                                ${location.pathname === item.target ? 'text-orange-400' : 'text-[var(--text-secondary)]'}`}
+                    {/* Desktop Menu */}
+                    <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
+                        {navItems.map((item) => (
+                            <span
+                                key={item.name}
+                                onClick={() => handleNavClick(item.target, item.type === 'scroll')}
+                                className={`relative cursor-pointer text-sm font-medium transition-colors hover:text-orange-400 
+                                    ${location.pathname === item.target ? 'text-orange-400' : 'text-[var(--text-secondary)]'}`}
+                            >
+                                {item.name}
+                                {location.pathname === item.target && (
+                                    <motion.div
+                                        layoutId="nav-underline"
+                                        className="absolute left-0 right-0 -bottom-1 h-0.5 bg-orange-400"
+                                    />
+                                )}
+                            </span>
+                        ))}
+
+                        {/* Theme Toggle */}
+                        <button
+                            onClick={toggleTheme}
+                            className="p-2 rounded-full bg-[var(--glass-bg)] hover:bg-orange-500/10 transition-colors border border-[var(--glass-border)] text-orange-400 ml-2"
+                            title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
                         >
-                            {item.name}
-                            {location.pathname === item.target && (
-                                <motion.div
-                                    layoutId="nav-underline"
-                                    className="absolute left-0 right-0 -bottom-1 h-0.5 bg-orange-400"
-                                />
-                            )}
-                        </span>
-                    ))}
+                            {isDarkMode ? <FiSun size={18} /> : <FiMoon size={18} />}
+                        </button>
+                    </div>
 
-                    {/* Theme Toggle */}
-                    <button
-                        onClick={toggleTheme}
-                        className="p-2 rounded-full bg-[var(--glass-bg)] hover:bg-orange-500/10 transition-colors border border-[var(--glass-border)] text-orange-400"
-                        title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                    >
-                        {isDarkMode ? <FiSun size={18} /> : <FiMoon size={18} />}
-                    </button>
-                </div>
-
-                {/* Mobile Menu & Theme Toggle */}
-                <div className="flex items-center gap-4 md:hidden">
-                    <button
-                        onClick={toggleTheme}
-                        className="p-2 rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)] text-orange-400"
-                    >
-                        {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
-                    </button>
-                    <button
-                        className="text-orange-400 text-2xl"
-                        onClick={() => setIsOpen(!isOpen)}
-                    >
-                        {isOpen ? <FiX /> : <FiMenu />}
-                    </button>
+                    {/* Mobile Menu Trigger */}
+                    <div className="md:hidden flex items-center gap-4">
+                        <button
+                            onClick={toggleTheme}
+                            className="p-2 rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)] text-orange-400"
+                        >
+                            {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
+                        </button>
+                        <button
+                            className="text-orange-400 text-2xl"
+                            onClick={() => setIsOpen(true)}
+                        >
+                            <FiMenu />
+                        </button>
+                    </div>
                 </div>
             </motion.nav>
 
-            {/* Mobile Menu Overlay */}
-            {/* Mobile Menu Overlay */}
+            {/* Premium Mobile Menu Overlay */}
             <AnimatePresence>
                 {isOpen && (
-                    <>
-                        {/* Backdrop Overlay */}
+                    <div className="fixed inset-0 z-[100] md:hidden">
+                        {/* Backdrop Blur */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setIsOpen(false)}
-                            className="fixed inset-0 z-[55] bg-black/60 backdrop-blur-sm md:hidden"
+                            className="absolute inset-0 bg-[var(--bg-primary)]/40 backdrop-blur-xl"
                         />
 
-                        {/* Side Drawer */}
-                        <motion.div
-                            initial={{ x: "100%" }}
-                            animate={{ x: 0 }}
-                            exit={{ x: "100%" }}
-                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                            className="fixed top-0 right-0 z-[60] w-[85vw] max-w-[350px] h-full bg-[var(--bg-primary)]/98 border-l border-[var(--glass-border)] shadow-2xl md:hidden overflow-hidden rounded-l-[32px] backdrop-blur-2xl"
+                        {/* Top Navigation Bar in Menu */}
+                        <div className="relative z-10 px-6 py-4 flex justify-between items-center w-full">
+                            <div onClick={() => handleNavClick('home', true)} className="cursor-pointer">
+                                <img src="/Logo/logo.png" alt="Logo" className="h-5 w-auto" />
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <button
+                                    onClick={toggleTheme}
+                                    className="p-2 text-orange-400 hover:opacity-70 transition-opacity"
+                                >
+                                    {isDarkMode ? <FiSun size={24} /> : <FiMoon size={24} />}
+                                </button>
+                                <button
+                                    onClick={() => setIsOpen(false)}
+                                    className="p-2 text-orange-400 hover:opacity-70 transition-opacity"
+                                >
+                                    <FiX size={28} />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Centered Menu Card Container */}
+                        <div 
+                            className="relative z-10 flex flex-col items-center justify-center min-h-[85vh] px-6"
+                            onClick={() => setIsOpen(false)}
                         >
-                            {/* Background Atmospheric Glows */}
-                            <div className="absolute top-[-10%] right-[-10%] w-[100%] h-[50%] bg-orange-600/10 rounded-full blur-[80px] pointer-events-none" />
-                            <div className="absolute bottom-[-10%] left-[-10%] w-[80%] h-[40%] bg-red-600/10 rounded-full blur-[70px] pointer-events-none" />
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                                onClick={(e) => e.stopPropagation()}
+                                className="w-full max-w-sm glass-card border border-[var(--glass-border)] bg-[var(--bg-primary)]/85 backdrop-blur-2xl rounded-[32px] p-6 shadow-2xl overflow-hidden relative"
+                            >
+                                {/* Decorative Glow */}
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-orange-500/10 blur-[60px] rounded-full pointer-events-none" />
 
-                            <div className="relative h-full flex flex-col px-8 py-12 overflow-y-auto">
-                                {/* Header / Close Button */}
-                                <div className="flex justify-between items-center mb-12">
-                                    <div onClick={() => handleNavClick('home', true)} className="cursor-pointer">
-                                        <img src="/Logo/logo.png" alt="Logo" className="h-5 w-auto" />
-                                    </div>
-                                    <button
-                                        className="p-2.5 rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)] text-orange-400"
-                                        onClick={() => setIsOpen(false)}
-                                    >
-                                        <FiX size={20} />
-                                    </button>
-                                </div>
-
-                                {/* Navigation Links */}
-                                <div className="flex flex-col space-y-5 flex-grow">
+                                <div className="flex flex-col space-y-4 relative z-10">
                                     {navItems.map((item, index) => (
                                         <motion.div
                                             key={item.name}
-                                            initial={{ opacity: 0, x: 20 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ duration: 0.4, delay: 0.1 + index * 0.05, ease: "easeOut" }}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: 0.1 + index * 0.05 }}
+                                            className="text-center"
                                         >
                                             <span
                                                 onClick={() => handleNavClick(item.target, item.type === 'scroll')}
-                                                className="group inline-flex items-center gap-3 cursor-pointer"
+                                                className="text-lg font-medium text-[var(--text-secondary)] hover:text-orange-400 transition-colors cursor-pointer inline-block py-0.5"
                                             >
-                                                <span className="text-[10px] font-mono text-orange-400 opacity-40">
-                                                    0{index + 1}
-                                                </span>
-                                                <span className="text-3xl font-bold text-text-primary group-hover:text-orange-400 transition-colors tracking-tight">
-                                                    {item.name}
-                                                </span>
+                                                {item.name}
                                             </span>
                                         </motion.div>
                                     ))}
-                                </div>
 
-                                {/* Social Links Footer */}
-                                <motion.div
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.5, delay: 0.6 }}
-                                    className="mt-auto pt-8 border-t border-[var(--glass-border)]"
-                                >
-                                    <p className="text-[10px] font-mono text-text-secondary uppercase tracking-[0.2em] mb-4 opacity-50">Social Presence</p>
-                                    <div className="flex gap-6 text-text-secondary">
-                                        <a href="https://github.com/amilashenalfernando" target="_blank" rel="noopener noreferrer" className="hover:text-orange-400 transition-colors text-xl">
-                                            <FiGithub />
-                                        </a>
-                                        <a href="https://www.linkedin.com/in/amilashenalfernando/" target="_blank" rel="noopener noreferrer" className="hover:text-orange-400 transition-colors text-xl">
-                                            <FiLinkedin />
-                                        </a>
-                                        <a href="mailto:amilafernando2004@gmail.com" className="hover:text-orange-400 transition-colors text-xl">
-                                            <FiMail />
-                                        </a>
-                                    </div>
-                                </motion.div>
-                            </div>
-                        </motion.div>
-                    </>
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.45 }}
+                                        className="pt-4"
+                                    >
+                                        <button
+                                            onClick={() => handleNavClick('contact', true)}
+                                            className="w-full py-4 rounded-2xl bg-gradient-to-r from-orange-500 to-red-600 text-white text-lg font-bold shadow-lg shadow-orange-500/20 active:scale-95 transition-all"
+                                        >
+                                            Get in Touch
+                                        </button>
+                                    </motion.div>
+                                </div>
+                            </motion.div>
+                        </div>
+                    </div>
                 )}
             </AnimatePresence>
         </React.Fragment>

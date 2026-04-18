@@ -153,8 +153,8 @@ const Volunteering = () => {
                                             key={item.id}
                                             className="group glass-card p-4 md:p-6 relative overflow-hidden transition-colors block bg-[var(--glass-bg)]"
                                         >
-                                            <div className="mb-4 md:mb-6 h-32 md:h-48 rounded-lg overflow-hidden relative">
-                                                <img src={item.image} alt={item.title} className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110" />
+                                            <div className="mb-4 md:mb-6 aspect-video rounded-lg overflow-hidden relative">
+                                                <img src={item.image} alt={item.title} className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110" />
                                             </div>
 
                                             <div>
