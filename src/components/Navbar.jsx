@@ -67,12 +67,18 @@ const Navbar = () => {
                     borderColor: scrolled ? 'var(--glass-border)' : 'transparent',
                     backgroundColor: scrolled ? 'var(--nav-bg)' : 'transparent',
                     backdropFilter: scrolled ? (isOpen ? 'blur(0px)' : 'blur(20px)') : 'blur(0px)',
+                    opacity: isOpen ? 0 : 1,
+                    pointerEvents: isOpen ? 'none' : 'auto'
                 }}
                 transition={{
                     type: "spring",
                     stiffness: 100,
                     damping: 20,
-                    mass: 1
+                    mass: 1,
+                    opacity: { 
+                        duration: 0.3,
+                        delay: isOpen ? 0 : 0.2 // Small delay when appearing so overlay can exit first
+                    }
                 }}
                 className={`fixed left-0 right-0 z-[999] mx-auto px-6 py-4 flex justify-between items-center ${scrolled ? 'shadow-2xl shadow-orange-500/5' : ''}`}
             >
@@ -127,11 +133,14 @@ const Navbar = () => {
                             {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
                         </button>
                         <button
-                            className="text-orange-400 p-2 w-10 h-10 flex items-center justify-center hover:bg-orange-500/10 rounded-full transition-colors active:scale-95"
-                            onClick={() => setIsOpen(true)}
+                            className="text-orange-400 p-2 w-12 h-12 flex items-center justify-center hover:bg-orange-500/10 rounded-full transition-all touch-manipulation"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setIsOpen(true);
+                            }}
                             aria-label="Open Menu"
                         >
-                            <FiMenu size={28} />
+                            <FiMenu size={32} />
                         </button>
                     </div>
                 </div>
@@ -151,7 +160,13 @@ const Navbar = () => {
                         />
 
                         {/* Top Navigation Bar in Menu */}
-                        <div className="relative z-10 px-6 py-4 flex justify-between items-center w-full">
+                        <motion.div 
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.2 }}
+                            className="relative z-10 px-6 py-4 flex justify-between items-center w-full"
+                        >
                             <div onClick={() => handleNavClick('home', true)} className="cursor-pointer">
                                 <img src="/Logo/logo.png" alt="Logo" className="h-5 w-auto" />
                             </div>
@@ -164,12 +179,13 @@ const Navbar = () => {
                                 </button>
                                 <button
                                     onClick={() => setIsOpen(false)}
-                                    className="p-2 text-orange-400 hover:opacity-70 transition-opacity"
+                                    className="p-3 w-12 h-12 flex items-center justify-center text-orange-400 hover:opacity-70 transition-all touch-manipulation"
+                                    aria-label="Close Menu"
                                 >
-                                    <FiX size={28} />
+                                    <FiX size={32} />
                                 </button>
                             </div>
-                        </div>
+                        </motion.div>
 
                         {/* Centered Menu Card Container */}
                         <div 
@@ -198,7 +214,7 @@ const Navbar = () => {
                                         >
                                             <span
                                                 onClick={() => handleNavClick(item.target, item.type === 'scroll')}
-                                                className="text-lg font-medium text-[var(--text-secondary)] hover:text-orange-400 transition-colors cursor-pointer inline-block py-0.5"
+                                                className="text-lg font-medium text-[var(--text-secondary)] hover:text-orange-400 transition-colors cursor-pointer inline-block py-3 px-8 w-full"
                                             >
                                                 {item.name}
                                             </span>
