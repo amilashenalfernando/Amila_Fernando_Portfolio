@@ -66,17 +66,14 @@ const Navbar = () => {
                     borderRadius: scrolled ? '24px' : '0px',
                     borderColor: scrolled ? 'var(--glass-border)' : 'transparent',
                     backgroundColor: scrolled ? 'var(--nav-bg)' : 'transparent',
-                    backdropFilter: isOpen ? 'blur(0px)' : (scrolled ? 'blur(16px)' : 'blur(0px)'),
+                    backdropFilter: isOpen ? 'none' : (scrolled ? 'blur(16px)' : 'none'),
                 }}
                 transition={{
-                    type: "spring",
-                    stiffness: 260,
-                    damping: 30,
-                    mass: 1
+                    duration: 0
                 }}
                 className={`fixed left-0 right-0 z-[999] mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center ${scrolled ? 'shadow-lg shadow-orange-500/5' : ''}`}
             >
-                <div className={`flex justify-between items-center w-full ${isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`} style={{ transition: 'opacity 0.05s linear' }}>
+                <div className={`flex justify-between items-center w-full ${isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`} style={{ transition: 'none' }}>
                     {/* Logo */}
                     <div
                         onClick={() => handleNavClick('home', true)}
@@ -127,7 +124,7 @@ const Navbar = () => {
                             {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
                         </button>
                         <button
-                            className="text-orange-400 p-2 w-12 h-12 flex items-center justify-center hover:bg-orange-500/10 active:bg-orange-500/20 rounded-full transition-colors touch-manipulation"
+                            className="text-orange-400 p-2 w-12 h-12 flex items-center justify-center hover:bg-orange-500/10 active:bg-orange-500/20 rounded-full transition-none touch-none"
                             onTouchStart={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();
@@ -156,9 +153,9 @@ const Navbar = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            transition={{ duration: 0.1 }}
+                            transition={{ duration: 0 }}
                             onClick={() => setIsOpen(false)}
-                            className="absolute inset-0 bg-[var(--bg-primary)]/40 backdrop-blur-sm"
+                            className="absolute inset-0 bg-[var(--bg-primary)]/60"
                             style={{ willChange: 'opacity' }}
                         />
 
@@ -167,7 +164,7 @@ const Navbar = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            transition={{ duration: 0.1 }}
+                            transition={{ duration: 0 }}
                             className="relative z-10 px-6 py-4 flex justify-between items-center w-full"
                         >
                             <div onClick={() => handleNavClick('home', true)} className="cursor-pointer">
@@ -192,7 +189,7 @@ const Navbar = () => {
                                             setIsOpen(false);
                                         }
                                     }}
-                                    className="p-3 w-12 h-12 flex items-center justify-center text-orange-400 hover:opacity-70 transition-all touch-manipulation"
+                                    className="p-3 w-12 h-12 flex items-center justify-center text-orange-400 hover:opacity-70 transition-none touch-none"
                                     aria-label="Close Menu"
                                 >
                                     <FiX size={32} />
@@ -209,12 +206,12 @@ const Navbar = () => {
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 exit={{ opacity: 0 }}
-                                transition={{ duration: 0.1, ease: "linear" }}
+                                transition={{ duration: 0 }}
                                 onClick={(e) => e.stopPropagation()}
-                                className="w-full max-w-sm glass-card border border-[var(--glass-border)] bg-[var(--bg-primary)]/90 backdrop-blur-md rounded-[32px] p-6 shadow-2xl relative"
+                                className="w-full max-w-sm glass-card border border-[var(--glass-border)] bg-[var(--bg-primary)] rounded-[32px] p-6 shadow-2xl relative"
                                 style={{ 
                                     willChange: 'opacity',
-                                    transition: 'none' // Disable CSS transitions to prevent interference
+                                    transition: 'none'
                                 }}
                             >
                                 {/* Decorative Glow */}
@@ -226,7 +223,7 @@ const Navbar = () => {
                                             key={item.name}
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
-                                            transition={{ duration: 0.05 }}
+                                            transition={{ duration: 0 }}
                                             className="text-center"
                                         >
                                             <span
@@ -241,7 +238,7 @@ const Navbar = () => {
                                     <motion.div
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
-                                        transition={{ duration: 0.05 }}
+                                        transition={{ duration: 0 }}
                                         className="pt-4"
                                     >
                                         <button
