@@ -95,8 +95,12 @@ const Navbar = () => {
                         : 'top-0 w-full bg-transparent'
                     }`}
             >
-                {/* Logo */}
-                <div onClick={() => handleNavClick('home', true)} className="cursor-pointer z-10">
+                {/* Logo with Ghost Click Protection */}
+                <div 
+                    onClick={() => handleNavClick('home', true)} 
+                    className="cursor-pointer z-10 transition-opacity"
+                    style={{ pointerEvents: isOpen ? 'none' : 'auto', opacity: isOpen ? 0.3 : 1 }}
+                >
                     <img src="/Logo/logo.png" alt="Logo" className="h-6 w-auto object-contain" />
                 </div>
 
@@ -106,7 +110,7 @@ const Navbar = () => {
                         <span
                             key={item.name}
                             onClick={() => handleNavClick(item.target, item.type === 'scroll')}
-                            className={`relative cursor-pointer text-sm font-medium hover:text-orange-400 transition-colors
+                            className={`relative cursor-pointer text-sm font-medium hover:text-orange-400 transition-colors p-2 lg:p-1
                                 ${location.pathname === item.target ? 'text-orange-400' : 'text-[var(--text-secondary)]'}`}
                         >
                             {item.name}
@@ -122,22 +126,26 @@ const Navbar = () => {
                 </div>
 
                 {/* Mobile Controls */}
-                <div className="md:hidden flex items-center gap-3">
+                <div className="md:hidden flex items-center gap-4">
+                    {/* Theme Toggle — Fast Response */}
                     <button
-                        onClick={toggleTheme}
-                        className="p-2 rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)] text-orange-400"
+                        onClick={(e) => { if (e.detail !== 0) toggleTheme(); }} // Prevent double trigger
+                        onTouchStart={(e) => { e.preventDefault(); toggleTheme(); }}
+                        onPointerDown={(e) => { if (e.pointerType !== 'touch') toggleTheme(); }}
+                        style={{ touchAction: 'none' }}
+                        className="p-3 rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)] text-orange-400 active:scale-90 transition-transform"
                     >
                         {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
                     </button>
-
-                    {/* Hamburger — fires on FIRST touch, no delay */}
+                    
+                    {/* Hamburger — Fast Response */}
                     <button
                         id="mobile-menu-open"
                         aria-label="Open Menu"
                         style={{ touchAction: 'none', userSelect: 'none', WebkitUserSelect: 'none' }}
                         onTouchStart={openMenu}
                         onPointerDown={(e) => { if (e.pointerType !== 'touch') openMenu(e); }}
-                        className="p-2 flex items-center justify-center rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)] text-orange-400 active:bg-orange-500/20"
+                        className="p-3 flex items-center justify-center rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)] text-orange-400 active:bg-orange-500/20 active:scale-90 transition-transform"
                     >
                         <FiMenu size={20} />
                     </button>
@@ -211,7 +219,10 @@ const Navbar = () => {
                     padding: '20px 20px 16px',
                     borderBottom: '1px solid rgba(249,115,22,0.1)',
                 }}>
-                    <div onClick={() => handleNavClick('home', true)} style={{ cursor: 'pointer' }}>
+                    <div 
+                        onClick={() => { closeMenu(); handleNavClick('home', true); }} 
+                        style={{ cursor: 'pointer', padding: '8px' }}
+                    >
                         <img src="/Logo/logo.png" alt="Logo" style={{ height: '20px', width: 'auto' }} />
                     </div>
                     <button
