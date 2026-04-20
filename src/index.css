@@ -42,7 +42,7 @@ body {
 
 /* Ensure smooth transitions for structural theme-aware elements */
 body, .glass-card, .glass-nav, .text-gradient, button {
-  transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, backdrop-filter 0.5s ease;
+  transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
 }
 
 /* Atomic synchronization for role links: Color switches instantly to match background start */

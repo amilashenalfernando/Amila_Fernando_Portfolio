@@ -61,28 +61,22 @@ const Navbar = () => {
                 initial={{ y: -100 }}
                 animate={{
                     y: 0,
-                    width: scrolled ? '85%' : '100%',
-                    top: scrolled ? 20 : 0,
-                    borderRadius: scrolled ? '50px' : '0px',
+                    width: scrolled ? 'calc(100% - 24px)' : '100%',
+                    top: scrolled ? 12 : 0,
+                    borderRadius: scrolled ? '24px' : '0px',
                     borderColor: scrolled ? 'var(--glass-border)' : 'transparent',
                     backgroundColor: scrolled ? 'var(--nav-bg)' : 'transparent',
-                    backdropFilter: scrolled ? (isOpen ? 'blur(0px)' : 'blur(20px)') : 'blur(0px)',
-                    opacity: isOpen ? 0 : 1,
-                    pointerEvents: isOpen ? 'none' : 'auto'
+                    backdropFilter: scrolled ? 'blur(16px)' : 'blur(0px)',
                 }}
                 transition={{
                     type: "spring",
-                    stiffness: 100,
-                    damping: 20,
-                    mass: 1,
-                    opacity: { 
-                        duration: 0.3,
-                        delay: isOpen ? 0 : 0.2 // Small delay when appearing so overlay can exit first
-                    }
+                    stiffness: 260,
+                    damping: 30,
+                    mass: 1
                 }}
-                className={`fixed left-0 right-0 z-[999] mx-auto px-6 py-4 flex justify-between items-center ${scrolled ? 'shadow-2xl shadow-orange-500/5' : ''}`}
+                className={`fixed left-0 right-0 z-[999] mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center ${scrolled ? 'shadow-lg shadow-orange-500/5' : ''}`}
             >
-                <div className={`flex justify-between items-center w-full transition-all duration-300 ${isOpen ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}>
+                <div className={`flex justify-between items-center w-full transition-all duration-300 ${isOpen ? 'opacity-0' : 'opacity-100'}`}>
                     {/* Logo */}
                     <div
                         onClick={() => handleNavClick('home', true)}
@@ -133,14 +127,14 @@ const Navbar = () => {
                             {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
                         </button>
                         <button
-                            className="text-orange-400 p-2 w-12 h-12 flex items-center justify-center hover:bg-orange-500/10 rounded-full transition-all touch-manipulation"
+                            className="text-orange-400 p-2 w-12 h-12 flex items-center justify-center hover:bg-orange-500/10 active:bg-orange-500/20 rounded-full transition-colors touch-manipulation"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 setIsOpen(true);
                             }}
                             aria-label="Open Menu"
                         >
-                            <FiMenu size={32} />
+                            <FiMenu size={28} />
                         </button>
                     </div>
                 </div>
