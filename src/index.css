@@ -30,14 +30,27 @@
   --scrollbar-thumb-hover: rgba(15, 23, 42, 0.2);
 }
 
+html {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: 'Outfit', 'Inter', sans-serif;
   overflow-x: hidden;
+  max-width: 100%;
   margin: 0;
   padding: 0;
   transition: background-color 0.5s ease, color 0.5s ease;
+  overscroll-behavior-x: none;
+}
+
+/* Used to lock background scroll when mobile menu is open */
+body.menu-open {
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: auto;
 }
 
 /* Ensure smooth transitions for structural theme-aware elements */

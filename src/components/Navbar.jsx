@@ -23,14 +23,14 @@ const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Lock body scroll when menu is open
+    // Lock body scroll when menu is open (uses CSS class, not inline style)
     useEffect(() => {
         if (isOpen) {
-            document.body.style.overflow = 'hidden';
+            document.body.classList.add('menu-open');
         } else {
-            document.body.style.overflow = '';
+            document.body.classList.remove('menu-open');
         }
-        return () => { document.body.style.overflow = ''; };
+        return () => { document.body.classList.remove('menu-open'); };
     }, [isOpen]);
 
     const openMenu = (e) => {
@@ -45,11 +45,12 @@ const Navbar = () => {
             e.stopPropagation();
         }
         setIsOpen(false);
+        document.body.classList.remove('menu-open');
     };
 
     const handleNavClick = (target, isScroll) => {
         setIsOpen(false);
-        document.body.style.overflow = '';
+        document.body.classList.remove('menu-open');
         setTimeout(() => {
             if (isScroll) {
                 if (isMainPage) {
@@ -154,7 +155,20 @@ const Navbar = () => {
                 }}
             />
 
-            {/* Drawer Panel */}
+            {/* Drawer Panel — slides in from right */}
+            {/* 20px transparent left strip lets iOS back-swipe gesture pass through */}
+            <div
+                aria-hidden="true"
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    width: '20px',
+                    zIndex: 1002,
+                    pointerEvents: 'none', // always let through — iOS uses this edge for back gesture
+                }}
+            />
             <div
                 role="dialog"
                 aria-modal="true"
@@ -178,6 +192,8 @@ const Navbar = () => {
                     transition: 'transform 0.22s cubic-bezier(0.4, 0, 0.2, 1)',
                     willChange: 'transform',
                     overflowY: 'auto',
+                    overscrollBehavior: 'contain',
+                    WebkitOverflowScrolling: 'touch',
                 }}
             >
                 {/* Drawer Header */}
