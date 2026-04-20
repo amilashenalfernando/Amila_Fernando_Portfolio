@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Link as ScrollLink, scroller } from 'react-scroll';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { scroller } from 'react-scroll';
+import { motion } from 'framer-motion';
+import { FiMenu, FiX, FiSun, FiMoon, FiChevronRight } from 'react-icons/fi';
 import { useTheme } from '../context/ThemeContext';
 
 const Navbar = () => {
@@ -17,32 +17,54 @@ const Navbar = () => {
     // Handle scroll effect
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 50) {
-                setScrolled(true);
-            } else {
-                setScrolled(false);
-            }
+            setScrolled(window.scrollY > 50);
         };
-
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    // Lock body scroll when menu is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => { document.body.style.overflow = ''; };
+    }, [isOpen]);
+
+    const openMenu = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsOpen(true);
+    };
+
+    const closeMenu = (e) => {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        setIsOpen(false);
+    };
+
     const handleNavClick = (target, isScroll) => {
         setIsOpen(false);
-        if (isScroll) {
-            if (isMainPage) {
-                scroller.scrollTo(target, {
-                    smooth: 'easeInOutQuart',
-                    duration: 1000,
-                    offset: -100
-                });
+        document.body.style.overflow = '';
+        setTimeout(() => {
+            if (isScroll) {
+                if (isMainPage) {
+                    scroller.scrollTo(target, {
+                        smooth: 'easeInOutQuart',
+                        duration: 800,
+                        offset: -100
+                    });
+                } else {
+                    navigate(`/#${target}`);
+                }
             } else {
-                navigate(`/#${target}`);
+                navigate(target);
             }
-        } else {
-            navigate(target);
-        }
+        }, 50);
     };
 
     const navItems = [
@@ -57,203 +79,201 @@ const Navbar = () => {
 
     return (
         <React.Fragment>
-            <motion.nav
-                initial={{ y: -100 }}
-                animate={{
-                    y: 0,
-                    width: scrolled ? 'calc(100% - 24px)' : '100%',
-                    top: scrolled ? 12 : 0,
-                    borderRadius: scrolled ? '24px' : '0px',
-                    borderColor: scrolled ? 'var(--glass-border)' : 'transparent',
-                    backgroundColor: scrolled ? 'var(--nav-bg)' : 'transparent',
-                    backdropFilter: isOpen ? 'none' : (scrolled ? 'blur(16px)' : 'none'),
-                }}
-                transition={{
-                    duration: 0
-                }}
-                className={`fixed left-0 right-0 z-[999] mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center ${scrolled ? 'shadow-lg shadow-orange-500/5' : ''}`}
+            {/* ── Main Navbar ── */}
+            <nav
+                className={`fixed left-0 right-0 z-[999] mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center transition-all duration-300
+                    ${scrolled
+                        ? 'top-3 w-[calc(100%-24px)] rounded-3xl shadow-lg shadow-orange-500/5 border border-[var(--glass-border)] bg-[var(--nav-bg)] backdrop-blur-xl'
+                        : 'top-0 w-full bg-transparent'
+                    }`}
             >
-                <div className={`flex justify-between items-center w-full ${isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`} style={{ transition: 'none' }}>
-                    {/* Logo */}
-                    <div
-                        onClick={() => handleNavClick('home', true)}
-                        className="cursor-pointer"
-                    >
-                        <img
-                            src="/Logo/logo.png"
-                            alt="Logo"
-                            className="h-5 w-auto object-contain"
-                        />
-                    </div>
-
-                    {/* Desktop Menu */}
-                    <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
-                        {navItems.map((item) => (
-                            <span
-                                key={item.name}
-                                onClick={() => handleNavClick(item.target, item.type === 'scroll')}
-                                className={`relative cursor-pointer text-sm font-medium transition-colors hover:text-orange-400 
-                                    ${location.pathname === item.target ? 'text-orange-400' : 'text-[var(--text-secondary)]'}`}
-                            >
-                                {item.name}
-                                {location.pathname === item.target && (
-                                    <motion.div
-                                        layoutId="nav-underline"
-                                        className="absolute left-0 right-0 -bottom-1 h-0.5 bg-orange-400"
-                                    />
-                                )}
-                            </span>
-                        ))}
-
-                        {/* Theme Toggle */}
-                        <button
-                            onClick={toggleTheme}
-                            className="p-2 rounded-full bg-[var(--glass-bg)] hover:bg-orange-500/10 transition-colors border border-[var(--glass-border)] text-orange-400 ml-2"
-                            title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                        >
-                            {isDarkMode ? <FiSun size={18} /> : <FiMoon size={18} />}
-                        </button>
-                    </div>
-
-                    {/* Mobile Menu Trigger */}
-                    <div className="md:hidden flex items-center gap-4">
-                        <button
-                            onClick={toggleTheme}
-                            className="p-2 rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)] text-orange-400"
-                        >
-                            {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
-                        </button>
-                        <button
-                            className="text-orange-400 p-2 w-12 h-12 flex items-center justify-center hover:bg-orange-500/10 active:bg-orange-500/20 rounded-full transition-none touch-none"
-                            onTouchStart={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                setIsOpen(true);
-                            }}
-                            onPointerDown={(e) => {
-                                if (e.pointerType !== 'touch') {
-                                    e.stopPropagation();
-                                    setIsOpen(true);
-                                }
-                            }}
-                            aria-label="Open Menu"
-                        >
-                            <FiMenu size={28} />
-                        </button>
-                    </div>
+                {/* Logo */}
+                <div onClick={() => handleNavClick('home', true)} className="cursor-pointer z-10">
+                    <img src="/Logo/logo.png" alt="Logo" className="h-5 w-auto object-contain" />
                 </div>
-            </motion.nav>
 
-            {/* Premium Mobile Menu Overlay */}
-            <AnimatePresence>
-                {isOpen && (
-                    <div className="fixed inset-0 z-[1000] md:hidden">
-                        {/* Backdrop Blur */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0 }}
-                            onClick={() => setIsOpen(false)}
-                            className="absolute inset-0 bg-[var(--bg-primary)]/60"
-                            style={{ willChange: 'opacity' }}
-                        />
-
-                        {/* Top Navigation Bar in Menu */}
-                        <motion.div 
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 0 }}
-                            className="relative z-10 px-6 py-4 flex justify-between items-center w-full"
+                {/* Desktop Menu */}
+                <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
+                    {navItems.map((item) => (
+                        <span
+                            key={item.name}
+                            onClick={() => handleNavClick(item.target, item.type === 'scroll')}
+                            className={`relative cursor-pointer text-sm font-medium hover:text-orange-400 transition-colors
+                                ${location.pathname === item.target ? 'text-orange-400' : 'text-[var(--text-secondary)]'}`}
                         >
-                            <div onClick={() => handleNavClick('home', true)} className="cursor-pointer">
-                                <img src="/Logo/logo.png" alt="Logo" className="h-5 w-auto" />
-                            </div>
-                            <div className="flex items-center gap-4">
-                                <button
-                                    onClick={toggleTheme}
-                                    className="p-2 text-orange-400 hover:opacity-70 transition-opacity"
-                                >
-                                    {isDarkMode ? <FiSun size={24} /> : <FiMoon size={24} />}
-                                </button>
-                                <button
-                                    onTouchStart={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        setIsOpen(false);
-                                    }}
-                                    onPointerDown={(e) => {
-                                        if (e.pointerType !== 'touch') {
-                                            e.stopPropagation();
-                                            setIsOpen(false);
-                                        }
-                                    }}
-                                    className="p-3 w-12 h-12 flex items-center justify-center text-orange-400 hover:opacity-70 transition-none touch-none"
-                                    aria-label="Close Menu"
-                                >
-                                    <FiX size={32} />
-                                </button>
-                            </div>
-                        </motion.div>
+                            {item.name}
+                        </span>
+                    ))}
+                    <button
+                        onClick={toggleTheme}
+                        className="p-2 rounded-full bg-[var(--glass-bg)] hover:bg-orange-500/10 transition-colors border border-[var(--glass-border)] text-orange-400 ml-2"
+                        title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                    >
+                        {isDarkMode ? <FiSun size={18} /> : <FiMoon size={18} />}
+                    </button>
+                </div>
 
-                        {/* Centered Menu Card Container */}
-                        <div 
-                            className="relative z-10 flex flex-col items-center justify-center min-h-[85vh] px-6"
-                            onClick={() => setIsOpen(false)}
-                        >
-                             <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0 }}
-                                onClick={(e) => e.stopPropagation()}
-                                className="w-full max-w-sm glass-card border border-[var(--glass-border)] bg-[var(--bg-primary)] rounded-[32px] p-6 shadow-2xl relative"
-                                style={{ 
-                                    willChange: 'opacity',
-                                    transition: 'none'
-                                }}
-                            >
-                                {/* Decorative Glow */}
-                                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-orange-500/10 blur-[60px] rounded-full pointer-events-none" />
+                {/* Mobile Controls */}
+                <div className="md:hidden flex items-center gap-3">
+                    <button
+                        onClick={toggleTheme}
+                        className="p-2 rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)] text-orange-400"
+                    >
+                        {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
+                    </button>
 
-                                <div className="flex flex-col space-y-4 relative z-10">
-                                    {navItems.map((item, index) => (
-                                        <motion.div
-                                            key={item.name}
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            transition={{ duration: 0 }}
-                                            className="text-center"
-                                        >
-                                            <span
-                                                onClick={() => handleNavClick(item.target, item.type === 'scroll')}
-                                                className="text-lg font-medium text-[var(--text-primary)] hover:text-orange-400 transition-colors cursor-pointer inline-block py-3 px-8 w-full"
-                                            >
-                                                {item.name}
-                                            </span>
-                                        </motion.div>
-                                    ))}
+                    {/* Hamburger — fires on FIRST touch, no delay */}
+                    <button
+                        id="mobile-menu-open"
+                        aria-label="Open Menu"
+                        style={{ touchAction: 'none', userSelect: 'none', WebkitUserSelect: 'none' }}
+                        onTouchStart={openMenu}
+                        onPointerDown={(e) => { if (e.pointerType !== 'touch') openMenu(e); }}
+                        className="p-2 flex items-center justify-center rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)] text-orange-400 active:bg-orange-500/20"
+                    >
+                        <FiMenu size={20} />
+                    </button>
+                </div>
+            </nav>
 
-                                    <motion.div
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        transition={{ duration: 0 }}
-                                        className="pt-4"
-                                    >
-                                        <button
-                                            onClick={() => handleNavClick('contact', true)}
-                                            className="w-full py-4 rounded-2xl bg-gradient-to-r from-orange-500 to-red-600 text-white text-lg font-bold shadow-lg shadow-orange-500/20 active:scale-95 transition-all"
-                                        >
-                                            Get in Touch
-                                        </button>
-                                    </motion.div>
-                                </div>
-                            </motion.div>
-                        </div>
+            {/* ── Mobile Drawer Overlay (pure CSS, zero Framer Motion) ── */}
+            {/* Backdrop */}
+            <div
+                aria-hidden="true"
+                onClick={closeMenu}
+                className="mobile-backdrop"
+                style={{
+                    position: 'fixed',
+                    inset: 0,
+                    zIndex: 1000,
+                    background: 'rgba(0,0,0,0.55)',
+                    display: 'block',
+                    pointerEvents: isOpen ? 'auto' : 'none',
+                    opacity: isOpen ? 1 : 0,
+                    transition: 'opacity 0.2s ease',
+                }}
+            />
+
+            {/* Drawer Panel */}
+            <div
+                role="dialog"
+                aria-modal="true"
+                aria-label="Navigation Menu"
+                style={{
+                    position: 'fixed',
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    zIndex: 1001,
+                    width: '80%',
+                    maxWidth: '320px',
+                    background: isDarkMode
+                        ? 'linear-gradient(160deg, #0f0f0f 0%, #1a1010 100%)'
+                        : 'linear-gradient(160deg, #ffffff 0%, #fff8f5 100%)',
+                    borderLeft: '1px solid rgba(249,115,22,0.15)',
+                    boxShadow: '-20px 0 60px rgba(0,0,0,0.4)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
+                    transition: 'transform 0.22s cubic-bezier(0.4, 0, 0.2, 1)',
+                    willChange: 'transform',
+                    overflowY: 'auto',
+                }}
+            >
+                {/* Drawer Header */}
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '20px 20px 16px',
+                    borderBottom: '1px solid rgba(249,115,22,0.1)',
+                }}>
+                    <div onClick={() => handleNavClick('home', true)} style={{ cursor: 'pointer' }}>
+                        <img src="/Logo/logo.png" alt="Logo" style={{ height: '20px', width: 'auto' }} />
                     </div>
-                )}
-            </AnimatePresence>
+                    <button
+                        id="mobile-menu-close"
+                        aria-label="Close Menu"
+                        onTouchStart={closeMenu}
+                        onPointerDown={(e) => { if (e.pointerType !== 'touch') closeMenu(e); }}
+                        style={{
+                            width: '40px',
+                            height: '40px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderRadius: '50%',
+                            border: '1px solid rgba(249,115,22,0.2)',
+                            background: 'rgba(249,115,22,0.08)',
+                            color: '#f97316',
+                            cursor: 'pointer',
+                            touchAction: 'none',
+                            userSelect: 'none',
+                            WebkitUserSelect: 'none',
+                            flexShrink: 0,
+                        }}
+                    >
+                        <FiX size={20} />
+                    </button>
+                </div>
+
+                {/* Nav Items */}
+                <nav style={{ flex: 1, padding: '12px 16px' }}>
+                    {navItems.map((item) => (
+                        <button
+                            key={item.name}
+                            onClick={() => handleNavClick(item.target, item.type === 'scroll')}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                width: '100%',
+                                padding: '14px 16px',
+                                marginBottom: '4px',
+                                borderRadius: '14px',
+                                background: 'transparent',
+                                border: 'none',
+                                cursor: 'pointer',
+                                color: 'var(--text-primary)',
+                                fontSize: '16px',
+                                fontWeight: '500',
+                                fontFamily: 'inherit',
+                                textAlign: 'left',
+                                transition: 'background 0.15s ease',
+                                touchAction: 'manipulation',
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(249,115,22,0.08)'}
+                            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                        >
+                            <span>{item.name}</span>
+                            <FiChevronRight size={16} style={{ color: '#f97316', opacity: 0.6 }} />
+                        </button>
+                    ))}
+                </nav>
+
+                {/* Get in Touch Button */}
+                <div style={{ padding: '16px 20px 36px' }}>
+                    <button
+                        onClick={() => handleNavClick('contact', true)}
+                        style={{
+                            width: '100%',
+                            padding: '15px',
+                            borderRadius: '16px',
+                            border: 'none',
+                            background: 'linear-gradient(135deg, #f97316, #ef4444)',
+                            color: '#fff',
+                            fontSize: '16px',
+                            fontWeight: '700',
+                            fontFamily: 'inherit',
+                            cursor: 'pointer',
+                            boxShadow: '0 8px 24px rgba(249,115,22,0.3)',
+                            touchAction: 'manipulation',
+                        }}
+                    >
+                        Get in Touch
+                    </button>
+                </div>
+            </div>
         </React.Fragment>
     );
 };
