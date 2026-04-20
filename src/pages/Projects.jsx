@@ -34,39 +34,6 @@ const projects = [
         github: "https://github.com/amilashenalfernando/dev_amila_arclight-portfolio",
         demo: "https://www.arclightsl.com/"
     },
-    {
-        id: 4,
-        title: "AI Image Generator",
-        category: "Academic",
-        image: "https://placehold.co/600x400/1e293b/f97316?text=AI+Generator",
-        description: "University final year project using GANs to generate artistic landscapes from sketches.",
-        stack: ["Python", "TensorFlow", "Flask"],
-        github: "#",
-        demo: "#",
-        hidden: true
-    },
-    {
-        id: 5,
-        title: "Restaurant Branding",
-        category: "Design",
-        image: "https://placehold.co/600x400/1e293b/f97316?text=Branding",
-        description: "Complete brand identity including logo, menu design, and social media assets.",
-        stack: ["Illustrator", "Photoshop"],
-        github: "#",
-        demo: "#",
-        hidden: true
-    },
-    {
-        id: 6,
-        title: "Smart Home Dashboard",
-        category: "Web App",
-        image: "https://placehold.co/600x400/1e293b/f97316?text=IoT+Dashboard",
-        description: "IoT dashboard to control smart devices with real-time data visualization.",
-        stack: ["Vue.js", "Socket.io", "Chart.js"],
-        github: "#",
-        demo: "#",
-        hidden: true
-    }
 ];
 
 const categories = ["All", "Web App", "Mobile App", "Academic", "Design"];
@@ -99,10 +66,13 @@ const Projects = () => {
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-center mb-12"
+                transition={{ duration: 0.7 }}
+                className="mb-16 text-center"
             >
-                <span className="text-orange-600 dark:text-orange-400 font-semibold tracking-wider uppercase text-sm">Portfolio</span>
-                <h2 className="text-4xl md:text-5xl font-bold mt-2">Featured <span className="text-gradient">Projects</span></h2>
+                <span className="text-orange-500 font-bold tracking-[0.2em] uppercase text-xs mb-4 block">Portfolio</span>
+                <h1 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)]">
+                    Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">Projects</span>
+                </h1>
             </motion.div>
 
             {/* Filters */}

@@ -53,31 +53,38 @@ const DesignPortfolio = () => {
     return (
         <div className="w-full max-w-7xl mx-auto pt-20 px-4 mb-32 font-sans md:px-8">
             
-            {/* Clean Header Section */}
+            {/* Cinematic Hero Section */}
             <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="text-center mb-16"
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="mb-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-end"
             >
-                <span className="text-orange-700 dark:text-orange-500 font-bold tracking-[0.2em] uppercase text-xs mb-3 block">Digital Canvases</span>
-                <h1 className="text-5xl font-bold text-text-primary mb-6">
-                    Design Portfolio
-                </h1>
-                <p className="text-text-secondary text-lg max-w-2xl mx-auto">
-                    Clean, precise, and striking visual identities crafted for impact. Explore the categorized gallery below.
-                </p>
+                <div>
+                    <span className="text-orange-700 dark:text-orange-500 font-bold tracking-[0.2em] uppercase text-xs mb-4 block">Design Studio</span>
+                    <h1 className="text-5xl md:text-7xl font-bold leading-tight text-[var(--text-primary)] mb-6">
+                        Crafting <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 dark:from-orange-400 to-red-600 dark:to-red-500">
+                            Striking Visuals
+                        </span>
+                    </h1>
+                </div>
+                <div className="pb-4">
+                    <p className="text-[var(--text-secondary)] text-lg md:text-xl leading-relaxed max-w-md">
+                        Clean, precise, and bold visual identities crafted for impact. Every pixel purposeful, every design a story — from social media to full brand systems.
+                    </p>
+                </div>
             </motion.div>
 
-            {/* Standard Clean Category Filter */}
-            <div className="flex justify-start md:justify-center gap-4 mb-16 overflow-x-auto pb-4 custom-scrollbar">
+            {/* Premium Category Filters */}
+            <div className="flex justify-start lg:justify-center gap-4 mb-20 overflow-x-auto pb-4 custom-scrollbar">
                 {categories.map((cat) => (
                     <button
                         key={cat}
                         onClick={() => setFilter(cat)}
-                        className={`px-6 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap border ${filter === cat
-                            ? 'bg-orange-500 text-white border-orange-500'
-                            : 'bg-[var(--glass-bg)] text-text-secondary border-[var(--glass-border)] hover:bg-orange-500/10 hover:text-text-primary'
+                        className={`px-8 py-3 rounded-full text-sm font-semibold tracking-wide uppercase transition-all whitespace-nowrap ${filter === cat
+                            ? 'bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-[0_0_20px_-5px_rgba(249,115,22,0.4)]'
+                            : 'bg-[var(--glass-bg)] text-[var(--text-secondary)] hover:bg-orange-500/10 hover:text-[var(--text-primary)] border border-[var(--glass-border)]'
                             }`}
                     >
                         {cat}
@@ -125,26 +132,73 @@ const DesignPortfolio = () => {
                 </AnimatePresence>
             </div>
 
-            {/* Minimalist Call To Action */}
+            {/* Premium Hire Me CTA */}
             <motion.div 
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="mt-24 p-12 text-center rounded-2xl bg-[var(--glass-bg)] border border-[var(--glass-border)]"
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.8 }}
+                className="mt-8 max-w-5xl mx-auto rounded-[2rem] relative overflow-hidden bg-[var(--bg-primary)] border border-[var(--glass-border)]"
             >
-                <h2 className="text-3xl font-bold text-text-primary mb-4">
-                    Need a design?
-                </h2>
-                <p className="text-text-secondary text-lg mb-8">
-                    Let's discuss how we can bring your creative vision to life.
-                </p>
-                <button 
-                    onClick={() => navigate('/#contact')} 
-                    className="px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-full transition-colors flex items-center justify-center gap-2 mx-auto"
-                >
-                    Contact Me <FiArrowRight size={18} />
-                </button>
+                {/* Background Ambient Glows */}
+                <div className="absolute top-[-50%] left-[-10%] w-[300px] h-[300px] bg-orange-600/20 rounded-full mix-blend-screen filter blur-[100px] pointer-events-none" />
+                <div className="absolute bottom-[-50%] right-[-10%] w-[300px] h-[300px] bg-red-600/10 rounded-full mix-blend-screen filter blur-[100px] pointer-events-none" />
+
+                <div className="p-10 md:p-16 relative z-10">
+                    {/* Top Badge */}
+                    <div className="flex justify-center mb-8">
+                        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-500 text-xs font-bold tracking-[0.2em] uppercase">
+                            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse inline-block" />
+                            Available for Projects
+                        </span>
+                    </div>
+
+                    {/* Headline */}
+                    <div className="text-center mb-10">
+                        <h2 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)] mb-5 leading-tight">
+                            Need a design that <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">
+                                makes an impact?
+                            </span>
+                        </h2>
+                        <p className="text-[var(--text-secondary)] text-lg max-w-2xl mx-auto leading-relaxed">
+                            From brand identities to social media campaigns, I craft visuals that communicate, convert, and leave a lasting impression. Let's bring your vision to life.
+                        </p>
+                    </div>
+
+                    {/* Stats Row */}
+                    <div className="grid grid-cols-3 gap-4 mb-10 max-w-xl mx-auto">
+                        {[
+                            { value: '100+', label: 'Projects Completed' },
+                            { value: '10+', label: 'Brands Designed' },
+                            { value: '100%', label: 'Client Satisfaction' },
+                        ].map((stat) => (
+                            <div key={stat.label} className="text-center p-4 rounded-2xl bg-[var(--glass-bg)] border border-[var(--glass-border)]">
+                                <div className="text-2xl font-bold text-orange-500 mb-1">{stat.value}</div>
+                                <div className="text-xs text-[var(--text-secondary)] font-medium">{stat.label}</div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Service Tags */}
+                    <div className="flex flex-wrap gap-2 justify-center mb-10">
+                        {['Brand Identity', 'Social Media', 'Flyers', 'Merchandise', 'Event Graphics', 'UI Design'].map((tag) => (
+                            <span key={tag} className="px-4 py-1.5 rounded-full text-sm font-medium bg-[var(--glass-bg)] border border-[var(--glass-border)] text-[var(--text-secondary)]">
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+
+                    {/* CTA Button */}
+                    <div className="flex justify-center">
+                        <button 
+                            onClick={() => navigate('/#contact')} 
+                            className="px-10 py-5 bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold rounded-full transition-all hover:scale-105 hover:shadow-[0_0_40px_-10px_rgba(249,115,22,0.5)] flex items-center gap-3 text-lg"
+                        >
+                            Let's Work Together <FiArrowRight size={20} />
+                        </button>
+                    </div>
+                </div>
             </motion.div>
 
             {/* Lightbox Modal */}

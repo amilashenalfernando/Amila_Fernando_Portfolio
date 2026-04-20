@@ -179,31 +179,72 @@ const Photography = () => {
                 </AnimatePresence>
             </div>
 
-            {/* Premium Call To Action */}
+            {/* Premium Call To Action — Hire Me */}
             <motion.div 
                 initial={{ opacity: 0, y: 40 }}
-                viewport={{ once: true }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.8 }}
-                className="mt-32 max-w-5xl mx-auto rounded-[2rem] relative overflow-hidden bg-[var(--bg-primary)] border border-[var(--glass-border)]"
+                className="mt-8 max-w-5xl mx-auto rounded-[2rem] relative overflow-hidden bg-[var(--bg-primary)] border border-[var(--glass-border)]"
             >
                 {/* Background Ambient Glows */}
                 <div className="absolute top-[-50%] left-[-10%] w-[300px] h-[300px] bg-orange-600/20 rounded-full mix-blend-screen filter blur-[100px] pointer-events-none" />
                 <div className="absolute bottom-[-50%] right-[-10%] w-[300px] h-[300px] bg-red-600/10 rounded-full mix-blend-screen filter blur-[100px] pointer-events-none" />
 
-                <div className="p-12 md:p-20 text-center relative z-10 flex flex-col items-center">
-                    <span className="text-orange-700 dark:text-orange-500 font-bold tracking-[0.2em] uppercase text-xs mb-4">Book A Session</span>
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-6">
-                        Ready to capture <br/> your unique story?
-                    </h2>
-                    <p className="text-text-secondary text-lg max-w-2xl mb-12">
-                        From high-end commercial projects to intimate personal portraits, I bring a professional, cinematic lens to every assignment. Secure your booking today.
-                    </p>
-                    <button 
-                        onClick={() => navigate('/#contact')} 
-                        className="px-10 py-5 bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold rounded-full transition-all hover:scale-105 hover:shadow-[0_0_40px_-10px_rgba(249,115,22,0.5)] flex items-center gap-3 text-lg"
-                    >
-                        Let's Work Together <FiArrowRight size={20} />
-                    </button>
+                <div className="p-10 md:p-16 relative z-10">
+                    {/* Top Badge */}
+                    <div className="flex justify-center mb-8">
+                        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-500 text-xs font-bold tracking-[0.2em] uppercase">
+                            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse inline-block" />
+                            Available for Bookings
+                        </span>
+                    </div>
+
+                    {/* Headline */}
+                    <div className="text-center mb-10">
+                        <h2 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)] mb-5 leading-tight">
+                            Ready to capture <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">
+                                your unique story?
+                            </span>
+                        </h2>
+                        <p className="text-[var(--text-secondary)] text-lg max-w-2xl mx-auto leading-relaxed">
+                            From high-end commercial projects to intimate personal portraits, I bring a professional, cinematic lens to every assignment. Let's create something extraordinary together.
+                        </p>
+                    </div>
+
+                    {/* Stats Row */}
+                    <div className="grid grid-cols-3 gap-4 mb-10 max-w-xl mx-auto">
+                        {[
+                            { value: '100+', label: 'Events Shot' },
+                            { value: '10000+', label: 'Photos Delivered' },
+                            { value: '100%', label: 'Client Satisfaction' },
+                        ].map((stat) => (
+                            <div key={stat.label} className="text-center p-4 rounded-2xl bg-[var(--glass-bg)] border border-[var(--glass-border)]">
+                                <div className="text-2xl font-bold text-orange-500 mb-1">{stat.value}</div>
+                                <div className="text-xs text-[var(--text-secondary)] font-medium">{stat.label}</div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Service Tags */}
+                    <div className="flex flex-wrap gap-2 justify-center mb-10">
+                        {['Events', 'Portraits', 'Commercial', 'Editorial', 'Documentary'].map((tag) => (
+                            <span key={tag} className="px-4 py-1.5 rounded-full text-sm font-medium bg-[var(--glass-bg)] border border-[var(--glass-border)] text-[var(--text-secondary)]">
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+
+                    {/* CTA Button */}
+                    <div className="flex justify-center">
+                        <button 
+                            onClick={() => navigate('/#contact')} 
+                            className="px-10 py-5 bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold rounded-full transition-all hover:scale-105 hover:shadow-[0_0_40px_-10px_rgba(249,115,22,0.5)] flex items-center gap-3 text-lg"
+                        >
+                            Let's Work Together <FiArrowRight size={20} />
+                        </button>
+                    </div>
                 </div>
             </motion.div>
 

@@ -1,8 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FiMail, FiMapPin, FiPhone, FiSend, FiGithub, FiLinkedin, FiInstagram, FiFacebook } from 'react-icons/fi';
+import { useTheme } from '../context/ThemeContext';
 
 const Contact = () => {
+    const { isDarkMode } = useTheme();
     const [result, setResult] = React.useState("");
 
     const onSubmit = async (event) => {
@@ -38,10 +40,13 @@ const Contact = () => {
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-center mb-16"
+                transition={{ duration: 0.7 }}
+                className="mb-16 text-center"
             >
-                <span className="text-orange-600 dark:text-orange-400 font-semibold tracking-wider uppercase text-sm">Get in Touch</span>
-                <h2 className="text-4xl md:text-5xl font-bold mt-2">Contact <span className="text-gradient">Me</span></h2>
+                <span className="text-orange-500 font-bold tracking-[0.2em] uppercase text-xs mb-4 block">Get in Touch</span>
+                <h1 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)]">
+                    Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">Me</span>
+                </h1>
             </motion.div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -95,10 +100,33 @@ const Contact = () => {
                             <div>
                                 <h4 className="font-bold text-text-primary mb-1">Address</h4>
                                 <p className="text-text-secondary">
-                                    NO.66/Layanal Road,Lansigama
+                                    No.66, Layanal Road, Lansigama,
                                     <br />
-                                    Katuneriya.
+                                    Katuneriya, Sri Lanka.
                                 </p>
+                            </div>
+                        </div>
+
+                        {/* Social Links */}
+                        <div className="pt-6 border-t border-[var(--glass-border)]">
+                            <h4 className="font-bold text-text-primary mb-4">Follow Me</h4>
+                            <div className="flex gap-4">
+                                {[
+                                    { icon: <FiGithub size={20} />, link: "https://github.com/amilashenalfernando", color: "hover:bg-white/10 hover:text-white" },
+                                    { icon: <FiLinkedin size={20} />, link: "https://www.linkedin.com/in/amilashenalfernando/", color: "hover:bg-blue-600/20 hover:text-blue-500" },
+                                    { icon: <FiInstagram size={20} />, link: "https://www.instagram.com/amilashenalfernando/", color: "hover:bg-pink-600/20 hover:text-pink-500" },
+                                    { icon: <FiFacebook size={20} />, link: "https://www.facebook.com/amilashenalfernando/", color: "hover:bg-blue-700/20 hover:text-blue-600" }
+                                ].map((social, idx) => (
+                                    <a
+                                        key={idx}
+                                        href={social.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={`w-10 h-10 rounded-lg bg-[var(--glass-bg)] border border-[var(--glass-border)] flex items-center justify-center text-text-secondary transition-all ${social.color}`}
+                                    >
+                                        {social.icon}
+                                    </a>
+                                ))}
                             </div>
                         </div>
 
@@ -109,15 +137,19 @@ const Contact = () => {
                     <div className="w-full h-64 md:h-80 rounded-2xl overflow-hidden shadow-lg border border-white/10 mt-4 relative group">
                         {/* 📍 CHANGE MAP LOCATION HERE: Update the 'q' parameter with new coordinates (Lat,Lng), address, or City */}
                         <iframe
-                            src="https://maps.google.com/maps?q=7.3791906,79.8263894&hl=en&z=14&output=embed"
+                            src="https://maps.google.com/maps?q=No.66,+Layanal+Road,+Lansigama,+Katuneriya,+Sri+Lanka&hl=en&z=15&output=embed"
                             width="100%"
                             height="100%"
                             style={{ border: 0 }}
                             allowFullScreen=""
                             loading="lazy"
                             referrerPolicy="no-referrer-when-downgrade"
-                            className="bg-[#242f3e] dark:grayscale group-hover:grayscale-0 transition-all duration-700"
-                            title="SLTC Location"
+                            className={`bg-[var(--glass-bg)] transition-all duration-700 ${
+                                isDarkMode 
+                                    ? 'grayscale group-hover:grayscale-0' 
+                                    : 'grayscale-0'
+                            }`}
+                            title="Location Map"
                         ></iframe>
                         {/* Hover overlay to restore color/interactive feel hint */}
                         <div className="absolute inset-0 bg-transparent group-hover:bg-transparent pointer-events-none transition-all" />

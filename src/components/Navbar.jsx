@@ -90,7 +90,7 @@ const Navbar = () => {
             >
                 {/* Logo */}
                 <div onClick={() => handleNavClick('home', true)} className="cursor-pointer z-10">
-                    <img src="/Logo/logo.png" alt="Logo" className="h-5 w-auto object-contain" />
+                    <img src="/Logo/logo.png" alt="Logo" className="h-6 w-auto object-contain" />
                 </div>
 
                 {/* Desktop Menu */}

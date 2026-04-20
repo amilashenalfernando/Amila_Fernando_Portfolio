@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import Layout from './components/Layout';
 import { Element, scroller } from 'react-scroll';
 import { ThemeProvider } from './context/ThemeContext';
@@ -14,6 +14,7 @@ import Photography from './pages/Photography';
 import Education from './pages/Education';
 import Volunteering from './pages/Volunteering';
 import Contact from './pages/Contact';
+import NotFound from './pages/NotFound';
 
 // Main Scroll Configuration
 const MainScroll = () => {
@@ -93,6 +94,24 @@ const ScrollToTop = () => {
 
 import LoadingScreen from './components/LoadingScreen';
 
+const pageVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -20 }
+};
+
+const PageWrapper = ({ children }) => (
+  <motion.div
+    initial="initial"
+    animate="animate"
+    exit="exit"
+    variants={pageVariants}
+    transition={{ duration: 0.5, ease: "easeInOut" }}
+  >
+    {children}
+  </motion.div>
+);
+
 // Main Content Component handling Loading & Routing Logic
 const AppContent = () => {
   const location = useLocation();
@@ -120,11 +139,14 @@ const AppContent = () => {
       </AnimatePresence>
       <ScrollToTop />
       <Layout>
-        <Routes>
-          <Route path="/" element={<MainScroll />} />
-          <Route path="/design" element={<DesignPortfolio />} />
-          <Route path="/photos" element={<Photography />} />
-        </Routes>
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<PageWrapper><MainScroll /></PageWrapper>} />
+            <Route path="/design" element={<PageWrapper><DesignPortfolio /></PageWrapper>} />
+            <Route path="/photos" element={<PageWrapper><Photography /></PageWrapper>} />
+            <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
+          </Routes>
+        </AnimatePresence>
       </Layout>
     </>
   );

@@ -89,10 +89,13 @@ const Education = () => {
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-center mb-16"
+                transition={{ duration: 0.7 }}
+                className="mb-16 text-center"
             >
-                <span className="text-orange-600 dark:text-orange-400 font-semibold tracking-wider uppercase text-sm">Journey</span>
-                <h2 className="text-4xl md:text-5xl font-bold mt-2">Education & <span className="text-gradient">Experience</span></h2>
+                <span className="text-orange-500 font-bold tracking-[0.2em] uppercase text-xs mb-4 block">Journey</span>
+                <h1 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)]">
+                    Education & <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">Experience</span>
+                </h1>
             </motion.div>
 
             {/* Timeline Section */}
@@ -148,10 +151,13 @@ const Education = () => {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
+                    transition={{ duration: 0.7 }}
                     className="text-center mb-12"
                 >
-                    <span className="text-orange-600 dark:text-orange-400 font-semibold tracking-wider uppercase text-sm">Achievements</span>
-                    <h2 className="text-3xl md:text-4xl font-bold mt-2">Certifications & <span className="text-gradient">Awards</span></h2>
+                    <span className="text-orange-500 font-bold tracking-[0.2em] uppercase text-xs mb-3 block">Achievements</span>
+                     <h2 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)] mt-2">
+                        Certifications & <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">Awards</span>
+                    </h2>
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

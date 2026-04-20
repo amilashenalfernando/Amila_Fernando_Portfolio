@@ -43,12 +43,13 @@ const Volunteering = () => {
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-center mb-12"
+                transition={{ duration: 0.7 }}
+                className="mb-16 text-center"
             >
-                <span className="text-orange-600 dark:text-orange-400 font-medium tracking-wide uppercase text-xs">Community Impact</span>
-                <h2 className="text-3xl md:text-4xl font-bold mt-2 text-text-primary">
-                    Volunteering & Activities
-                </h2>
+                <span className="text-orange-500 font-bold tracking-[0.2em] uppercase text-xs mb-4 block">Community Impact</span>
+                <h1 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)]">
+                    Volunteering & <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600">Activities</span>
+                </h1>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -135,7 +136,7 @@ const Volunteering = () => {
                             <div className="p-4 md:p-6 border-b border-[var(--glass-border)] flex justify-between items-center bg-transparent sticky top-0 z-20 shrink-0">
                                 <div>
                                     <h3 className="text-xl md:text-2xl font-bold text-text-primary">All Volunteering Activities</h3>
-                                    <p className="text-text-secondary text-xs md:text-sm">A complete record of my community involvement</p>
+                                    <p className="text-orange-500 font-bold tracking-[0.15em] uppercase text-[10px] mt-1">Community Involvement</p>
                                 </div>
                                 <button
                                     onClick={() => setIsModalOpen(false)}
