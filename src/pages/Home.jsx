@@ -45,7 +45,7 @@ const Home = () => {
     }, [displayed, typing, activeRole]);
 
     return (
-        <div className="w-full min-h-[90vh] flex items-center justify-center px-4 md:px-8 py-16">
+        <div className="w-full min-h-[90vh] flex items-center justify-center px-4 md:px-8 pt-8 pb-16">
             <div className="w-full max-w-6xl">
 
                 {/* ── TOP SECTION: Photo + Text side by side ── */}

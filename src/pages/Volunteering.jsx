@@ -117,7 +117,7 @@ const Volunteering = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0, pointerEvents: "none" }}
-                        className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-[var(--bg-primary)] overflow-hidden"
+                        className="fixed inset-0 z-[1001] flex items-center justify-center p-4 md:p-8 bg-[var(--bg-primary)] overflow-hidden"
                         onClick={() => setIsModalOpen(false)}
                     >
                         {/* Animated Background Blobs - Full Screen */}

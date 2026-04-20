@@ -256,7 +256,7 @@ const About = () => {
                 </h2>
             </motion.div>
 
-            <div className="relative w-screen ml-[calc(50%-50vw)] overflow-hidden py-10 bg-[var(--glass-bg)] backdrop-blur-sm border-y border-[var(--glass-border)]">
+            <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen overflow-hidden py-10 bg-[var(--glass-bg)] backdrop-blur-sm border-y border-[var(--glass-border)]">
                 <div className="flex w-max">
                     {[0, 1].map((loop) => (
                         <motion.div

@@ -25,12 +25,18 @@ const Navbar = () => {
 
     // Lock body scroll when menu is open (uses CSS class, not inline style)
     useEffect(() => {
+        const root = document.documentElement;
         if (isOpen) {
+            root.classList.add('menu-open');
             document.body.classList.add('menu-open');
         } else {
+            root.classList.remove('menu-open');
             document.body.classList.remove('menu-open');
         }
-        return () => { document.body.classList.remove('menu-open'); };
+        return () => { 
+            root.classList.remove('menu-open');
+            document.body.classList.remove('menu-open'); 
+        };
     }, [isOpen]);
 
     const openMenu = (e) => {
@@ -45,6 +51,7 @@ const Navbar = () => {
             e.stopPropagation();
         }
         setIsOpen(false);
+        document.documentElement.classList.remove('menu-open');
         document.body.classList.remove('menu-open');
     };
 
@@ -82,9 +89,9 @@ const Navbar = () => {
         <React.Fragment>
             {/* ── Main Navbar ── */}
             <nav
-                className={`fixed left-0 right-0 z-[999] mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center transition-all duration-300
+                className={`fixed left-0 right-0 z-[999] mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center transition-all duration-500
                     ${scrolled
-                        ? 'top-3 w-[calc(100%-24px)] rounded-3xl shadow-lg shadow-orange-500/5 border border-[var(--glass-border)] bg-[var(--nav-bg)] backdrop-blur-xl'
+                        ? 'top-4 w-[calc(100%-32px)] md:w-[calc(100%-48px)] rounded-2xl shadow-xl shadow-orange-500/10 border border-[var(--glass-border)] bg-[var(--nav-bg)] backdrop-blur-xl'
                         : 'top-0 w-full bg-transparent'
                     }`}
             >
