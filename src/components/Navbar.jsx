@@ -66,7 +66,7 @@ const Navbar = () => {
                     borderRadius: scrolled ? '24px' : '0px',
                     borderColor: scrolled ? 'var(--glass-border)' : 'transparent',
                     backgroundColor: scrolled ? 'var(--nav-bg)' : 'transparent',
-                    backdropFilter: scrolled ? 'blur(16px)' : 'blur(0px)',
+                    backdropFilter: isOpen ? 'blur(0px)' : (scrolled ? 'blur(16px)' : 'blur(0px)'),
                 }}
                 transition={{
                     type: "spring",
@@ -76,7 +76,7 @@ const Navbar = () => {
                 }}
                 className={`fixed left-0 right-0 z-[999] mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center ${scrolled ? 'shadow-lg shadow-orange-500/5' : ''}`}
             >
-                <div className={`flex justify-between items-center w-full transition-all duration-300 ${isOpen ? 'opacity-0' : 'opacity-100'}`}>
+                <div className={`flex justify-between items-center w-full ${isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`} style={{ transition: 'opacity 0.2s ease' }}>
                     {/* Logo */}
                     <div
                         onClick={() => handleNavClick('home', true)}
@@ -128,7 +128,7 @@ const Navbar = () => {
                         </button>
                         <button
                             className="text-orange-400 p-2 w-12 h-12 flex items-center justify-center hover:bg-orange-500/10 active:bg-orange-500/20 rounded-full transition-colors touch-manipulation"
-                            onClick={(e) => {
+                            onPointerDown={(e) => {
                                 e.stopPropagation();
                                 setIsOpen(true);
                             }}
@@ -172,7 +172,10 @@ const Navbar = () => {
                                     {isDarkMode ? <FiSun size={24} /> : <FiMoon size={24} />}
                                 </button>
                                 <button
-                                    onClick={() => setIsOpen(false)}
+                                    onPointerDown={(e) => {
+                                        e.stopPropagation();
+                                        setIsOpen(false);
+                                    }}
                                     className="p-3 w-12 h-12 flex items-center justify-center text-orange-400 hover:opacity-70 transition-all touch-manipulation"
                                     aria-label="Close Menu"
                                 >
@@ -208,7 +211,7 @@ const Navbar = () => {
                                         >
                                             <span
                                                 onClick={() => handleNavClick(item.target, item.type === 'scroll')}
-                                                className="text-lg font-medium text-[var(--text-secondary)] hover:text-orange-400 transition-colors cursor-pointer inline-block py-3 px-8 w-full"
+                                                className="text-lg font-medium text-[var(--text-primary)] hover:text-orange-400 transition-colors cursor-pointer inline-block py-3 px-8 w-full"
                                             >
                                                 {item.name}
                                             </span>
