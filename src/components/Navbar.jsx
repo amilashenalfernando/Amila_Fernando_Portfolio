@@ -76,7 +76,7 @@ const Navbar = () => {
                 }}
                 className={`fixed left-0 right-0 z-[999] mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center ${scrolled ? 'shadow-lg shadow-orange-500/5' : ''}`}
             >
-                <div className={`flex justify-between items-center w-full ${isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`} style={{ transition: 'opacity 0.2s ease' }}>
+                <div className={`flex justify-between items-center w-full ${isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`} style={{ transition: 'opacity 0.05s linear' }}>
                     {/* Logo */}
                     <div
                         onClick={() => handleNavClick('home', true)}
@@ -156,17 +156,18 @@ const Navbar = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
+                            transition={{ duration: 0.1 }}
                             onClick={() => setIsOpen(false)}
-                            className="absolute inset-0 bg-[var(--bg-primary)]/30 backdrop-blur-md"
+                            className="absolute inset-0 bg-[var(--bg-primary)]/40 backdrop-blur-sm"
                             style={{ willChange: 'opacity' }}
                         />
 
                         {/* Top Navigation Bar in Menu */}
                         <motion.div 
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: 0.2 }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.1 }}
                             className="relative z-10 px-6 py-4 flex justify-between items-center w-full"
                         >
                             <div onClick={() => handleNavClick('home', true)} className="cursor-pointer">
@@ -205,13 +206,16 @@ const Navbar = () => {
                             onClick={() => setIsOpen(false)}
                         >
                              <motion.div
-                                initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                                animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                                transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.6 }}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.1, ease: "linear" }}
                                 onClick={(e) => e.stopPropagation()}
-                                className="w-full max-w-sm glass-card border border-[var(--glass-border)] bg-[var(--bg-primary)]/80 backdrop-blur-xl rounded-[32px] p-6 shadow-2xl overflow-hidden relative"
-                                style={{ transformZ: 0, willChange: 'transform, opacity' }}
+                                className="w-full max-w-sm glass-card border border-[var(--glass-border)] bg-[var(--bg-primary)]/90 backdrop-blur-md rounded-[32px] p-6 shadow-2xl relative"
+                                style={{ 
+                                    willChange: 'opacity',
+                                    transition: 'none' // Disable CSS transitions to prevent interference
+                                }}
                             >
                                 {/* Decorative Glow */}
                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-orange-500/10 blur-[60px] rounded-full pointer-events-none" />
@@ -220,9 +224,9 @@ const Navbar = () => {
                                     {navItems.map((item, index) => (
                                         <motion.div
                                             key={item.name}
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.1 + index * 0.05 }}
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            transition={{ duration: 0.05 }}
                                             className="text-center"
                                         >
                                             <span
@@ -235,9 +239,9 @@ const Navbar = () => {
                                     ))}
 
                                     <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.45 }}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ duration: 0.05 }}
                                         className="pt-4"
                                     >
                                         <button
