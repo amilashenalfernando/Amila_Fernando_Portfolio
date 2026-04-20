@@ -128,9 +128,16 @@ const Navbar = () => {
                         </button>
                         <button
                             className="text-orange-400 p-2 w-12 h-12 flex items-center justify-center hover:bg-orange-500/10 active:bg-orange-500/20 rounded-full transition-colors touch-manipulation"
-                            onPointerDown={(e) => {
+                            onTouchStart={(e) => {
+                                e.preventDefault();
                                 e.stopPropagation();
                                 setIsOpen(true);
+                            }}
+                            onPointerDown={(e) => {
+                                if (e.pointerType !== 'touch') {
+                                    e.stopPropagation();
+                                    setIsOpen(true);
+                                }
                             }}
                             aria-label="Open Menu"
                         >
@@ -150,7 +157,8 @@ const Navbar = () => {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setIsOpen(false)}
-                            className="absolute inset-0 bg-[var(--bg-primary)]/40 backdrop-blur-xl"
+                            className="absolute inset-0 bg-[var(--bg-primary)]/30 backdrop-blur-md"
+                            style={{ willChange: 'opacity' }}
                         />
 
                         {/* Top Navigation Bar in Menu */}
@@ -172,9 +180,16 @@ const Navbar = () => {
                                     {isDarkMode ? <FiSun size={24} /> : <FiMoon size={24} />}
                                 </button>
                                 <button
-                                    onPointerDown={(e) => {
+                                    onTouchStart={(e) => {
+                                        e.preventDefault();
                                         e.stopPropagation();
                                         setIsOpen(false);
+                                    }}
+                                    onPointerDown={(e) => {
+                                        if (e.pointerType !== 'touch') {
+                                            e.stopPropagation();
+                                            setIsOpen(false);
+                                        }
                                     }}
                                     className="p-3 w-12 h-12 flex items-center justify-center text-orange-400 hover:opacity-70 transition-all touch-manipulation"
                                     aria-label="Close Menu"
@@ -189,13 +204,14 @@ const Navbar = () => {
                             className="relative z-10 flex flex-col items-center justify-center min-h-[85vh] px-6"
                             onClick={() => setIsOpen(false)}
                         >
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                             <motion.div
+                                initial={{ opacity: 0, scale: 0.95, y: 10 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                                transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.6 }}
                                 onClick={(e) => e.stopPropagation()}
-                                className="w-full max-w-sm glass-card border border-[var(--glass-border)] bg-[var(--bg-primary)]/85 backdrop-blur-2xl rounded-[32px] p-6 shadow-2xl overflow-hidden relative"
+                                className="w-full max-w-sm glass-card border border-[var(--glass-border)] bg-[var(--bg-primary)]/80 backdrop-blur-xl rounded-[32px] p-6 shadow-2xl overflow-hidden relative"
+                                style={{ transformZ: 0, willChange: 'transform, opacity' }}
                             >
                                 {/* Decorative Glow */}
                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-orange-500/10 blur-[60px] rounded-full pointer-events-none" />
