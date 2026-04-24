@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { scroller } from 'react-scroll';
-import { motion } from 'framer-motion';
 import { FiMenu, FiX, FiSun, FiMoon, FiChevronRight } from 'react-icons/fi';
 import { useTheme } from '../context/ThemeContext';
 
@@ -11,6 +10,8 @@ const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
+    // Ref to block ghost clicks for 400ms after any pointer interaction
+    const lastPointerTime = useRef(0);
 
     const isMainPage = location.pathname === '/';
 
@@ -23,7 +24,7 @@ const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Lock body scroll when menu is open (uses CSS class, not inline style)
+    // Lock body scroll when menu is open
     useEffect(() => {
         const root = document.documentElement;
         if (isOpen) {
@@ -33,23 +34,32 @@ const Navbar = () => {
             root.classList.remove('menu-open');
             document.body.classList.remove('menu-open');
         }
-        return () => { 
+        return () => {
             root.classList.remove('menu-open');
-            document.body.classList.remove('menu-open'); 
+            document.body.classList.remove('menu-open');
         };
     }, [isOpen]);
 
-    const openMenu = (e) => {
+    // ─── Unified pointer handler: fires instantly, blocks ghost clicks ───────
+    // ALL touch-interactive elements use onPointerDown + e.preventDefault().
+    // React's pointerdown listeners are NON-passive, so preventDefault() 
+    // actually works — it cancels the follow-up synthetic click event.
+    // onTouchStart listeners in React 17+ are PASSIVE, so preventDefault()
+    // there is silently ignored, allowing ghost clicks to fire ~300ms later.
+
+    const handleOpenMenu = (e) => {
         e.preventDefault();
         e.stopPropagation();
+        lastPointerTime.current = Date.now();
         setIsOpen(true);
     };
 
-    const closeMenu = (e) => {
+    const handleCloseMenu = (e) => {
         if (e) {
             e.preventDefault();
             e.stopPropagation();
         }
+        lastPointerTime.current = Date.now();
         setIsOpen(false);
         document.documentElement.classList.remove('menu-open');
         document.body.classList.remove('menu-open');
@@ -57,6 +67,7 @@ const Navbar = () => {
 
     const handleNavClick = (target, isScroll) => {
         setIsOpen(false);
+        document.documentElement.classList.remove('menu-open');
         document.body.classList.remove('menu-open');
         setTimeout(() => {
             if (isScroll) {
@@ -73,6 +84,15 @@ const Navbar = () => {
                 navigate(target);
             }
         }, 50);
+    };
+
+    // Logo click — guard against ghost clicks by checking timing
+    const handleLogoPress = (e) => {
+        e.preventDefault();
+        // Block if menu is open OR if a pointer event just fired within 400ms (ghost click window)
+        if (isOpen) return;
+        if (Date.now() - lastPointerTime.current < 400) return;
+        handleNavClick('home', true);
     };
 
     const navItems = [
@@ -95,13 +115,18 @@ const Navbar = () => {
                         : 'top-0 w-full bg-transparent'
                     }`}
             >
-                {/* Logo with Ghost Click Protection */}
-                <div 
-                    onClick={() => handleNavClick('home', true)} 
-                    className="cursor-pointer z-10 transition-opacity"
-                    style={{ pointerEvents: isOpen ? 'none' : 'auto', opacity: isOpen ? 0.3 : 1 }}
+                {/* Logo */}
+                <div
+                    onPointerDown={handleLogoPress}
+                    className="cursor-pointer z-10 transition-opacity select-none"
+                    style={{
+                        opacity: isOpen ? 0.3 : 1,
+                        touchAction: 'manipulation',
+                        userSelect: 'none',
+                        WebkitUserSelect: 'none',
+                    }}
                 >
-                    <img src="/Logo/logo.png" alt="Logo" className="h-6 w-auto object-contain" />
+                    <img src="/Logo/logo.png" alt="Logo" className="h-6 w-auto object-contain pointer-events-none" />
                 </div>
 
                 {/* Desktop Menu */}
@@ -125,28 +150,44 @@ const Navbar = () => {
                     </button>
                 </div>
 
-                {/* Mobile Controls */}
+                {/* ── Mobile Controls ── */}
                 <div className="md:hidden flex items-center gap-3">
-                    {/* Theme Toggle — Single pointerdown fires once, preventDefault blocks the follow-up click */}
+                    {/*
+                        KEY FIX: onPointerDown + e.preventDefault()
+                        - Fires INSTANTLY on touch (no 300ms wait)
+                        - preventDefault() on pointerdown cancels the follow-up synthetic
+                          click event, so toggleTheme/openMenu only fires ONCE per tap
+                        - React pointerdown = non-passive → preventDefault() actually works
+                        - React touchstart = passive → preventDefault() is silently IGNORED
+                    */}
+
+                    {/* Theme Toggle */}
                     <button
                         aria-label={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
                         onPointerDown={(e) => {
-                            e.preventDefault(); // stops synthetic 'click' from also firing
+                            e.preventDefault();
                             toggleTheme();
                         }}
-                        style={{ touchAction: 'manipulation', userSelect: 'none', WebkitUserSelect: 'none' }}
+                        style={{
+                            touchAction: 'manipulation',
+                            userSelect: 'none',
+                            WebkitUserSelect: 'none',
+                        }}
                         className="p-3 rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)] text-orange-400 active:scale-90 transition-transform"
                     >
                         {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
                     </button>
 
-                    {/* Hamburger — Fast Response */}
+                    {/* Hamburger */}
                     <button
                         id="mobile-menu-open"
                         aria-label="Open Menu"
-                        style={{ touchAction: 'none', userSelect: 'none', WebkitUserSelect: 'none' }}
-                        onTouchStart={openMenu}
-                        onPointerDown={(e) => { if (e.pointerType !== 'touch') openMenu(e); }}
+                        onPointerDown={handleOpenMenu}
+                        style={{
+                            touchAction: 'manipulation',
+                            userSelect: 'none',
+                            WebkitUserSelect: 'none',
+                        }}
                         className="p-3 flex items-center justify-center rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)] text-orange-400 active:bg-orange-500/20 active:scale-90 transition-transform"
                     >
                         <FiMenu size={20} />
@@ -154,12 +195,10 @@ const Navbar = () => {
                 </div>
             </nav>
 
-            {/* ── Mobile Drawer Overlay (pure CSS, zero Framer Motion) ── */}
-            {/* Backdrop */}
+            {/* ── Backdrop ── */}
             <div
                 aria-hidden="true"
-                onClick={closeMenu}
-                className="mobile-backdrop"
+                onPointerDown={handleCloseMenu}
                 style={{
                     position: 'fixed',
                     inset: 0,
@@ -169,11 +208,11 @@ const Navbar = () => {
                     pointerEvents: isOpen ? 'auto' : 'none',
                     opacity: isOpen ? 1 : 0,
                     transition: 'opacity 0.2s ease',
+                    touchAction: 'manipulation',
                 }}
             />
 
-            {/* Drawer Panel — slides in from right */}
-            {/* 20px transparent left strip lets iOS back-swipe gesture pass through */}
+            {/* ── iOS back-swipe passthrough strip (left 20px) ── */}
             <div
                 aria-hidden="true"
                 style={{
@@ -183,9 +222,11 @@ const Navbar = () => {
                     bottom: 0,
                     width: '20px',
                     zIndex: 1002,
-                    pointerEvents: 'none', // always let through — iOS uses this edge for back gesture
+                    pointerEvents: 'none',
                 }}
             />
+
+            {/* ── Drawer Panel ── */}
             <div
                 role="dialog"
                 aria-modal="true"
@@ -221,17 +262,33 @@ const Navbar = () => {
                     padding: '20px 20px 16px',
                     borderBottom: '1px solid rgba(249,115,22,0.1)',
                 }}>
-                    <div 
-                        onClick={() => { closeMenu(); handleNavClick('home', true); }} 
-                        style={{ cursor: 'pointer', padding: '8px' }}
+                    {/* Logo inside drawer — navigate home and close */}
+                    <div
+                        onPointerDown={(e) => {
+                            e.preventDefault();
+                            handleCloseMenu(e);
+                            handleNavClick('home', true);
+                        }}
+                        style={{
+                            cursor: 'pointer',
+                            padding: '8px',
+                            touchAction: 'manipulation',
+                            userSelect: 'none',
+                            WebkitUserSelect: 'none',
+                        }}
                     >
-                        <img src="/Logo/logo.png" alt="Logo" style={{ height: '20px', width: 'auto' }} />
+                        <img
+                            src="/Logo/logo.png"
+                            alt="Logo"
+                            style={{ height: '20px', width: 'auto', pointerEvents: 'none' }}
+                        />
                     </div>
+
+                    {/* Close Button */}
                     <button
                         id="mobile-menu-close"
                         aria-label="Close Menu"
-                        onTouchStart={closeMenu}
-                        onPointerDown={(e) => { if (e.pointerType !== 'touch') closeMenu(e); }}
+                        onPointerDown={handleCloseMenu}
                         style={{
                             width: '40px',
                             height: '40px',
@@ -243,7 +300,7 @@ const Navbar = () => {
                             background: 'rgba(249,115,22,0.08)',
                             color: '#f97316',
                             cursor: 'pointer',
-                            touchAction: 'none',
+                            touchAction: 'manipulation',
                             userSelect: 'none',
                             WebkitUserSelect: 'none',
                             flexShrink: 0,
@@ -258,7 +315,10 @@ const Navbar = () => {
                     {navItems.map((item) => (
                         <button
                             key={item.name}
-                            onClick={() => handleNavClick(item.target, item.type === 'scroll')}
+                            onPointerDown={(e) => {
+                                e.preventDefault();
+                                handleNavClick(item.target, item.type === 'scroll');
+                            }}
                             style={{
                                 display: 'flex',
                                 alignItems: 'center',
@@ -277,6 +337,8 @@ const Navbar = () => {
                                 textAlign: 'left',
                                 transition: 'background 0.15s ease',
                                 touchAction: 'manipulation',
+                                userSelect: 'none',
+                                WebkitUserSelect: 'none',
                             }}
                             onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(249,115,22,0.08)'}
                             onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
@@ -290,7 +352,10 @@ const Navbar = () => {
                 {/* Get in Touch Button */}
                 <div style={{ padding: '16px 20px 36px' }}>
                     <button
-                        onClick={() => handleNavClick('contact', true)}
+                        onPointerDown={(e) => {
+                            e.preventDefault();
+                            handleNavClick('contact', true);
+                        }}
                         style={{
                             width: '100%',
                             padding: '15px',
@@ -304,6 +369,8 @@ const Navbar = () => {
                             cursor: 'pointer',
                             boxShadow: '0 8px 24px rgba(249,115,22,0.3)',
                             touchAction: 'manipulation',
+                            userSelect: 'none',
+                            WebkitUserSelect: 'none',
                         }}
                     >
                         Get in Touch
