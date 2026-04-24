@@ -45,11 +45,11 @@ const Home = () => {
     }, [displayed, typing, activeRole]);
 
     return (
-        <div className="w-full min-h-[90vh] flex items-center justify-center px-4 md:px-8 pt-8 pb-16">
+        <div className="w-full min-h-screen flex items-center justify-center px-4 md:px-8 pt-20 md:pt-8 pb-16">
             <div className="w-full max-w-6xl">
 
                 {/* ── TOP SECTION: Photo + Text side by side ── */}
-                <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16 mb-16">
+                <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16 mb-12">
 
                     <motion.div
                         initial={{ opacity: 0, x: -40 }}
@@ -60,7 +60,7 @@ const Home = () => {
                         {/* Circle Photo with Gradient Border */}
                         <div className="relative group">
                             <div className="absolute -inset-1 bg-gradient-to-r from-orange-500 to-red-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-                            <div className="relative w-72 h-72 md:w-96 md:h-96 rounded-full p-1 bg-gradient-to-br from-orange-500 to-red-600 shadow-2xl">
+                            <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full p-1 bg-gradient-to-br from-orange-500 to-red-600 shadow-2xl">
                                 <div className="w-full h-full rounded-full overflow-hidden border-4 border-[var(--bg-primary)] bg-[var(--bg-primary)]">
                                     <img
                                         src="/My/1.jpg"
@@ -80,13 +80,13 @@ const Home = () => {
                         className="flex flex-col items-start text-left flex-1"
                     >
                         {/* Greeting tag */}
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-500 text-xs font-bold tracking-widest uppercase mb-6">
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-500 text-xs font-bold tracking-widest uppercase mb-5">
                             <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
                             Welcome to my Portfolio
                         </div>
 
                         {/* Large Name */}
-                        <h1 className="text-4xl md:text-5xl font-bold leading-[1.05] tracking-tight text-[var(--text-primary)] mb-4">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.05] tracking-tight text-[var(--text-primary)] mb-4">
                             I'm{' '}
                             <span className="text-gradient">Amila Fernando</span>
                         </h1>

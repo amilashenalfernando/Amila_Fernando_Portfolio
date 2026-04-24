@@ -101,7 +101,7 @@ const Education = () => {
             {/* Timeline Section */}
             <div className="relative max-w-4xl mx-auto mb-32">
                 {/* Vertical Line */}
-                <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-[var(--glass-border)] transform -translate-x-1/2" />
+                <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-[var(--glass-border)] transform -translate-x-1/2" />
 
                 {educationData.map((item, index) => (
                     <motion.div
@@ -110,28 +110,26 @@ const Education = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.5, delay: index * 0.1 }}
-                        className={`relative flex flex-col md:flex-row gap-8 mb-12 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''
-                            }`}
+                        className={`relative flex flex-col md:flex-row gap-8 mb-12 ${
+                            index % 2 === 0 ? 'md:flex-row-reverse' : ''
+                        }`}
                     >
                         {/* Timeline Dot */}
-                        <div className="absolute left-4 md:left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-4 border-[var(--bg-primary)] shadow-lg flex items-center justify-center z-10"
+                        <div className="absolute left-6 md:left-1/2 transform -translate-x-1/2 w-9 h-9 rounded-full border-4 border-[var(--bg-primary)] shadow-lg flex items-center justify-center z-10"
                             style={{
                                 backgroundColor: item.type === 'education' ? '#f97316' : item.type === 'experience' ? '#ef4444' : '#eab308'
                             }}
                         >
-                            {/* Icons would go here if imported/defined */}
-                            {item.type === 'education' && <FiBook className="text-white text-sm" />}
-                            {item.type === 'experience' && <FiBriefcase className="text-white text-sm" />}
-                            {item.type === 'certification' && <FiAward className="text-white text-sm" />}
+                            {item.type === 'education' && <FiBook className="text-white text-xs" />}
+                            {item.type === 'experience' && <FiBriefcase className="text-white text-xs" />}
+                            {item.type === 'certification' && <FiAward className="text-white text-xs" />}
                         </div>
 
-                        {/* Content Side */}
-                        <div className="md:w-1/2 pl-12 md:pl-0" style={{ paddingLeft: index % 2 === 0 ? "0" : "" }}>
-                            {/* Empty spacer for the other side on desktop */}
-                        </div>
+                        {/* Content Side (desktop only) */}
+                        <div className="hidden md:block md:w-1/2" />
 
                         {/* Card Side */}
-                        <div className={`md:w-1/2 pl-12 md:pl-0 ${index % 2 === 0 ? 'md:pr-12' : 'md:pl-12'}`}>
+                        <div className={`md:w-1/2 pl-14 md:pl-0 ${index % 2 === 0 ? 'md:pr-12' : 'md:pl-12'}`}>
                             <div className="glass-card p-6 relative hover:border-orange-500/50 transition-colors">
                                 <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-[var(--glass-bg)] text-text-secondary mb-3 border border-[var(--glass-border)]">
                                     {item.year}

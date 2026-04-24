@@ -36,6 +36,17 @@ html, body, #root {
   position: relative;
 }
 
+/* Support iOS safe areas (notch/home-bar) */
+body {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Prevent horizontal scroll from any rogue elements */
+* {
+  box-sizing: border-box;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -52,13 +63,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Used to lock background scroll when mobile menu is open - Enhanced for mobile/iOS */
-html.menu-open, body.menu-open {
+/* Used to lock background scroll when mobile menu is open.
+   Avoid position:fixed which causes a scroll-jump on iOS.
+   We only need overflow:hidden + touch-action:none on the html element. */
+html.menu-open {
   overflow: hidden !important;
-  height: 100vh !important;
-  width: 100vw !important;
-  position: fixed !important;
   touch-action: none !important;
+}
+body.menu-open {
+  overflow: hidden !important;
 }
 
 /* Ensure smooth transitions for structural theme-aware elements */

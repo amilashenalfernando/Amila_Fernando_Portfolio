@@ -126,18 +126,20 @@ const Navbar = () => {
                 </div>
 
                 {/* Mobile Controls */}
-                <div className="md:hidden flex items-center gap-4">
-                    {/* Theme Toggle — Fast Response */}
+                <div className="md:hidden flex items-center gap-3">
+                    {/* Theme Toggle — Single pointerdown fires once, preventDefault blocks the follow-up click */}
                     <button
-                        onClick={(e) => { if (e.detail !== 0) toggleTheme(); }} // Prevent double trigger
-                        onTouchStart={(e) => { e.preventDefault(); toggleTheme(); }}
-                        onPointerDown={(e) => { if (e.pointerType !== 'touch') toggleTheme(); }}
-                        style={{ touchAction: 'none' }}
+                        aria-label={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                        onPointerDown={(e) => {
+                            e.preventDefault(); // stops synthetic 'click' from also firing
+                            toggleTheme();
+                        }}
+                        style={{ touchAction: 'manipulation', userSelect: 'none', WebkitUserSelect: 'none' }}
                         className="p-3 rounded-full bg-[var(--glass-bg)] border border-[var(--glass-border)] text-orange-400 active:scale-90 transition-transform"
                     >
                         {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
                     </button>
-                    
+
                     {/* Hamburger — Fast Response */}
                     <button
                         id="mobile-menu-open"
