@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { Link } from 'react-scroll';
 import { Link as RouterLink } from 'react-router-dom';
 import { FiArrowRight, FiGithub, FiLinkedin, FiMail, FiCode, FiCamera, FiPenTool } from 'react-icons/fi';
@@ -12,11 +12,52 @@ const roles = [
 ];
 
 const stats = [
-    { value: '3+', label: 'Projects' },
-    { value: '2+', label: 'Years Experience' },
-    { value: '100+', label: 'Events Shot' },
-    { value: '100%', label: 'Passionate' },
+    { value: 3,   suffix: '+', label: 'Projects' },
+    { value: 2,   suffix: '+', label: 'Years Experience' },
+    { value: 100, suffix: '+', label: 'Events Shot' },
+    { value: 100, suffix: '%', label: 'Passionate' },
 ];
+
+const StatValue = ({ value, suffix }) => {
+    const ref = useRef(null);
+    const [display, setDisplay] = useState(0);
+    const isInView = useInView(ref, { once: true, amount: 0.3 });
+
+    useEffect(() => {
+        if (!isInView) return;
+        let active = true;
+        let intervalId = null;
+
+        // Small delay so cards are visibly fading in when counting starts
+        const timeoutId = setTimeout(() => {
+            if (!active) return;
+            let step = 0;
+            const totalSteps = 60;
+            intervalId = setInterval(() => {
+                step++;
+                const t = step / totalSteps;
+                const eased = 1 - Math.pow(1 - t, 3);
+                setDisplay(Math.floor(eased * value));
+                if (step >= totalSteps) {
+                    setDisplay(value);
+                    clearInterval(intervalId);
+                }
+            }, 30);
+        }, 400);
+
+        return () => {
+            active = false;
+            clearTimeout(timeoutId);
+            clearInterval(intervalId);
+        };
+    }, [isInView, value]);
+
+    return (
+        <span ref={ref} className="text-3xl font-extrabold text-orange-500 mb-1 tabular-nums">
+            {display}{suffix}
+        </span>
+    );
+};
 
 const Home = () => {
     const { isDarkMode } = useTheme();
@@ -166,8 +207,9 @@ const Home = () => {
                 {/* ── BOTTOM: Stats bar ── */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.0, duration: 0.6 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.2, duration: 0.6 }}
                     className="grid grid-cols-2 md:grid-cols-4 gap-4"
                 >
                     {stats.map((stat, i) => (
@@ -175,7 +217,7 @@ const Home = () => {
                             key={stat.label}
                             className="glass-card px-6 py-5 flex flex-col items-center justify-center text-center rounded-2xl border border-[var(--glass-border)]"
                         >
-                            <span className="text-3xl font-extrabold text-orange-500 mb-1">{stat.value}</span>
+                            <StatValue value={stat.value} suffix={stat.suffix} />
                             <span className="text-[var(--text-secondary)] text-xs font-semibold uppercase tracking-wider">{stat.label}</span>
                         </div>
                     ))}
