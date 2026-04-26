@@ -138,18 +138,7 @@ const About = () => {
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                        <div className="absolute bottom-5 left-4 right-4 flex flex-wrap gap-2">
-                            {[
-                                { label: 'Developer', action: () => scroller.scrollTo('projects', { smooth: true, duration: 500, offset: -100 }) },
-                                { label: 'Designer', action: () => navigate('/design') },
-                                { label: 'Photographer', action: () => navigate('/photos') },
-                            ].map(({ label, action }) => (
-                                <button key={label} onClick={action}
-                                    className="px-3 py-1.5 rounded-full text-xs font-bold bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-orange-500 hover:border-orange-500 transition-all">
-                                    {label}
-                                </button>
-                            ))}
-                        </div>
+
                     </div>
                 </motion.div>
 

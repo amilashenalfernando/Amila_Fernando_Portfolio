@@ -21,12 +21,21 @@ const stats = [
 const StatValue = ({ value, suffix }) => {
     const ref = useRef(null);
     const [display, setDisplay] = useState(0);
-    const isInView = useInView(ref, { once: true, amount: 0.3 });
+    const isInView = useInView(ref, { once: false, amount: 0.3 });
 
     useEffect(() => {
-        if (!isInView) return;
+        if (!isInView) {
+            setDisplay(0);
+            return;
+        }
+        
         let active = true;
         let intervalId = null;
+
+        // Ensure we wait for the LoadingScreen (takes 3.5s + 2s fade) on initial page load
+        const timeSinceLoad = performance.now();
+        const minimumStart = 4500; 
+        const delay = timeSinceLoad < minimumStart ? minimumStart - timeSinceLoad : 400;
 
         // Small delay so cards are visibly fading in when counting starts
         const timeoutId = setTimeout(() => {
@@ -43,7 +52,7 @@ const StatValue = ({ value, suffix }) => {
                     clearInterval(intervalId);
                 }
             }, 30);
-        }, 400);
+        }, delay);
 
         return () => {
             active = false;
@@ -208,7 +217,7 @@ const Home = () => {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: false, amount: 0.1 }}
                     transition={{ delay: 0.2, duration: 0.6 }}
                     className="grid grid-cols-2 md:grid-cols-4 gap-4"
                 >
